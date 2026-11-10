@@ -1,0 +1,4529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller Hub · CeylonXperiences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1e293b;
+  --ink-secondary: #475569;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --line-light: #f1f5f9;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --accent: #1e3932;
+  --accent-hover: #142823;
+  --accent-light: #eef4f1;
+  --accent-border: #c8ded4;
+  --fiverr-green: #1dbf73;
+  --fiverr-green-light: #e8f9f1;
+  --gold: #b45309;
+  --gold-light: #fef3c7;
+  --gold-border: #fde68a;
+  --red: #b91c1c;
+  --red-light: #fef2f2;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg: 0 16px 36px rgba(0,0,0,0.1);
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font: 14px/1.55 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font-family: inherit; font-size: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hidden { display: none !important; }
+
+/* SHELL LAYOUT */
+.shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+.sidebar {
+  background: #ffffff;
+  border-right: 1px solid var(--line);
+  padding: 24px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+  overflow-y: auto;
+}
+.brand-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line-light);
+  margin-bottom: 18px;
+}
+.brand-box .brand {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.4px;
+}
+.brand-box .brand span { color: var(--gold); }
+.brand-box .badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--accent-light);
+  color: var(--accent);
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* HOST PROFILE CARD IN SIDEBAR */
+.sidebar-host-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.host-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+.host-info { min-width: 0; flex: 1; }
+.host-info strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ink);
+}
+.host-info small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.host-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #15803d;
+  font-weight: 600;
+  margin-top: 3px;
+}
+.host-status-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+
+/* SIDEBAR NAVIGATION (NO EMOJIS - PURE SVG ICONS) */
+.nav-menu { display: flex; flex-direction: column; gap: 3px; }
+.nav-menu button {
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--ink-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+.nav-menu button .nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-menu button svg {
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+.nav-menu button:hover {
+  background: var(--line-light);
+  color: var(--ink);
+}
+.nav-menu button:hover svg { color: var(--ink); }
+.nav-menu button.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+}
+.nav-menu button.active svg { color: var(--accent); }
+.nav-counter {
+  font-size: 11px;
+  background: #ffffff;
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-light);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sidebar-footer a {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+.sidebar-footer a:hover { color: var(--accent); text-decoration: none; }
+
+/* TOPBAR */
+.workspace { min-width: 0; }
+.topbar {
+  height: 68px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+}
+.breadcrumb { font-size: 12px; color: var(--muted); }
+.breadcrumb strong { color: var(--ink); font-weight: 600; }
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.fee-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  color: var(--ink-secondary);
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.fee-pill strong { color: var(--accent); }
+
+/* CONTENT CONTAINER */
+.content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 32px 60px;
+}
+.header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+.header-titles h1 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+.header-titles p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.btn:hover { background: #f8fafc; border-color: #cbd5e1; }
+.btn svg { flex-shrink: 0; }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+.btn.primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+.btn.danger { color: var(--red); }
+.btn.danger:hover { background: var(--red-light); border-color: #fecaca; }
+.btn.small { padding: 5px 10px; font-size: 11px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* STATS KPI METRICS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.stat-card .stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.stat-card .stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.6px;
+  line-height: 1.1;
+}
+.stat-card .stat-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* PANELS */
+.panel {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.panel-head {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.panel-head h2 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ink);
+}
+.panel-head p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 3px 0 0;
+}
+.panel-body { padding: 22px; }
+
+/* FIVERR-STYLE GIGS HERO BANNER */
+.gigs-hero-banner {
+  background: linear-gradient(135deg, #1e3932 0%, #152924 100%);
+  color: #ffffff;
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: var(--shadow);
+}
+.gigs-hero-text h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  margin: 0 0 6px;
+}
+.gigs-hero-text p {
+  font-size: 13px;
+  opacity: 0.9;
+  margin: 0;
+  max-width: 620px;
+}
+.gig-meter-box {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  min-width: 240px;
+  text-align: right;
+}
+.gig-meter-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+.gig-meter-count {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.gig-progress-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.gig-progress-fill {
+  height: 100%;
+  background: var(--fiverr-green);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* GIG CARDS GRID */
+.gigs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.gig-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gig-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: #cbd5e1;
+}
+.gig-card-media {
+  position: relative;
+  height: 180px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+.gig-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.gig-card:hover .gig-card-media img {
+  transform: scale(1.03);
+}
+.gig-cat-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.gig-status-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 20px;
+}
+.gig-status-badge.live { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.gig-status-badge.paused { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+
+.gig-card-body {
+  padding: 16px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.gig-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  margin: 0 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 40px;
+}
+.gig-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.gig-meta-item { display: inline-flex; align-items: center; gap: 4px; }
+.gig-inclusions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 14px;
+  min-height: 24px;
+}
+.inclusion-pill {
+  font-size: 10px;
+  background: var(--line-light);
+  color: var(--ink-secondary);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.gig-card-footer {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gig-price-box {
+  display: flex;
+  flex-direction: column;
+}
+.gig-price-box small { font-size: 10px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.gig-price-box strong { font-size: 16px; font-weight: 700; color: var(--accent); }
+.gig-actions-row { display: flex; gap: 6px; }
+
+/* ADD GIG EMPTY CARD */
+.gig-add-card {
+  border: 2px dashed #cbd5e1;
+  border-radius: var(--radius);
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 340px;
+}
+.gig-add-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.gig-add-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--accent);
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.gig-add-card strong {
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.gig-add-card p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+  max-width: 220px;
+}
+
+/* TABLES & FILTERS */
+.filters-bar {
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+  flex-wrap: wrap;
+  background: #f8fafc;
+}
+.filters-bar input, .filters-bar select {
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  padding: 7px 11px;
+  background: #ffffff;
+  font-size: 12px;
+}
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+  white-space: nowrap;
+}
+th {
+  background: #f8fafc;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+}
+td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line-light);
+  color: var(--ink);
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+td strong { font-weight: 600; }
+td small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* STATUS TAGS */
+.tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.tag.confirmed, .tag.live, .tag.active, .tag.completed, .tag.paid, .tag.resolved {
+  background: #dcfce7; color: #166534;
+}
+.tag.requested, .tag.pending, .tag.open, .tag.unpaid, .tag.paused {
+  background: #fef3c7; color: #92400e;
+}
+.tag.cancelled, .tag.declined, .tag.suspended, .tag.rejected {
+  background: #fee2e2; color: #991b1b;
+}
+
+/* AUTHENTICATION VIEW */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  background: #f1f5f9;
+}
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 36px 36px 30px;
+}
+.auth-brand {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.auth-brand .brand {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.auth-brand .brand span { color: var(--gold); }
+.auth-brand p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+.auth-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--line-light);
+  margin-bottom: 22px;
+}
+.auth-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.auth-tab.active {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* QUICK HOST SELECTION CHIPS ON LOGIN */
+.quick-host-select {
+  margin-bottom: 18px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.quick-host-select label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 8px;
+}
+.quick-host-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.quick-host-pill {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.quick-host-pill:hover, .quick-host-pill.active {
+  background: var(--accent-light);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+.form-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.form-field input, .form-field select, .form-field textarea {
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  color: var(--ink);
+  transition: border-color 0.15s ease;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(30,57,50,0.1);
+}
+.form-hint {
+  font-size: 11px;
+  color: var(--muted);
+}
+.error-banner {
+  background: var(--red-light);
+  color: var(--red);
+  border: 1px solid #fecaca;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+/* ACTIVE SESSION BOX */
+.active-session-card {
+  background: var(--accent-light);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+.active-session-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.active-session-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* MODAL */
+dialog {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  width: min(720px, calc(100% - 32px));
+  max-height: 90vh;
+  box-shadow: var(--shadow-lg);
+  background: #ffffff;
+}
+dialog::backdrop {
+  background: rgba(15,23,42,0.6);
+  backdrop-filter: blur(2px);
+}
+.dialog-head {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dialog-head h2 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ink);
+}
+.dialog-body {
+  padding: 22px 24px;
+  max-height: calc(90vh - 130px);
+  overflow-y: auto;
+}
+.dialog-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #f8fafc;
+}
+
+/* FORM GRID */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* PHOTO PRESET PICKER IN GIG MODAL */
+.photo-presets-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 6px;
+}
+.preset-thumb {
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  position: relative;
+}
+.preset-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.preset-thumb.active { border-color: var(--accent); }
+.preset-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 9px;
+  text-align: center;
+  padding: 2px;
+  font-weight: 600;
+}
+
+/* CHIPS FOR INCLUSIONS */
+.quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.quick-chip {
+  background: var(--line-light);
+  border: 1px solid #cbd5e1;
+  padding: 4px 8px;
+  border-radius: 14px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.quick-chip:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 100;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1080px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .gigs-grid { grid-template-columns: repeat(2, 1fr); }
+  .photo-presets-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    width: 270px;
+    box-shadow: var(--shadow-lg);
+    transition: left 0.25s ease;
+  }
+  .sidebar.open { left: 0; }
+  .mobile-toggle { display: block; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .gigs-grid { grid-template-columns: 1fr; }
+  .gigs-hero-banner { flex-direction: column; align-items: stretch; }
+  .gig-meter-box { text-align: left; }
+  .form-grid-2 { grid-template-columns: 1fr; }
+  .content { padding: 20px 16px; }
+  .topbar { padding: 0 16px; }
+}
+
+/* ==========================================================================
+   BOOKING CALENDAR STYLES (OVERVIEW & AVAILABILITY)
+   ========================================================================== */
+.calendar-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.calendar-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--line);
+  background: #ffffff;
+}
+.calendar-title-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.calendar-title-badge .cal-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.calendar-title-badge h2 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--ink);
+}
+.calendar-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 2px 0 0;
+}
+.calendar-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.calendar-gig-filter {
+  font-size: 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: var(--ink);
+  max-width: 240px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+}
+.calendar-gig-filter:focus {
+  border-color: var(--accent);
+}
+.calendar-nav-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: var(--line-light);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 2px;
+}
+.cal-nav-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.cal-nav-btn:hover {
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+  color: var(--accent);
+}
+.calendar-month-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  padding: 0 10px;
+  min-width: 130px;
+  text-align: center;
+  user-select: none;
+}
+.cal-today-btn {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-light);
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cal-today-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.calendar-legend-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 24px;
+  background: #fbfcfd;
+  border-bottom: 1px solid var(--line-light);
+  font-size: 11.5px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.cal-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+.cal-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.cal-legend-dot.confirmed { background: #10b981; }
+.cal-legend-dot.requested { background: #f59e0b; }
+.cal-legend-dot.completed { background: #6366f1; }
+.cal-legend-dot.blocked { background: #94a3b8; }
+
+.calendar-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr);
+  min-height: 480px;
+}
+@media (max-width: 980px) {
+  .calendar-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.calendar-view-pane {
+  padding: 16px 20px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 980px) {
+  .calendar-view-pane {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.cal-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  flex: 1;
+}
+
+.cal-day-cell {
+  min-height: 90px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 7px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  text-align: left;
+}
+.cal-day-cell:hover {
+  border-color: var(--accent);
+  background: #fbfdfc;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.cal-day-cell.other-month {
+  background: #fafbfc;
+  opacity: 0.45;
+  border-color: #f1f5f9;
+}
+.cal-day-cell.is-today {
+  border-color: var(--accent);
+  background: #f4faf6;
+}
+.cal-day-cell.is-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+  background: #ffffff;
+}
+
+.cal-cell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.cal-day-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.cal-today-pill {
+  font-size: 8.5px;
+  font-weight: 700;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 1px 4px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cal-events-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.cal-pill {
+  font-size: 10px;
+  line-height: 1.25;
+  padding: 2px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cal-pill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cal-pill.confirmed {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+.cal-pill.confirmed .cal-pill-dot { background: #10b981; }
+
+.cal-pill.requested {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+.cal-pill.requested .cal-pill-dot { background: #f59e0b; }
+
+.cal-pill.completed {
+  background: #eef2ff;
+  color: #3730a3;
+  border: 1px solid #c7d2fe;
+}
+.cal-pill.completed .cal-pill-dot { background: #6366f1; }
+
+.cal-pill.blocked {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+.cal-pill.blocked .cal-pill-dot { background: #94a3b8; }
+
+.cal-more-pill {
+  font-size: 9.5px;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 1px 4px;
+}
+
+/* INSPECTOR PANE */
+.cal-inspector-pane {
+  padding: 22px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 560px;
+}
+.cal-inspector-header {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-light);
+}
+.cal-inspector-date {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cal-inspector-count {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 3px;
+}
+.cal-sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cal-session-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.15s ease;
+}
+.cal-session-card:hover {
+  border-color: var(--accent-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.cal-session-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.cal-session-time {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.cal-session-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+.cal-session-guest {
+  font-size: 12px;
+  color: var(--ink-secondary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cal-session-fin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px dashed var(--line);
+  font-size: 12px;
+}
+.cal-session-fin strong {
+  color: var(--fiverr-green);
+  font-weight: 700;
+}
+.cal-session-btn {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.cal-empty-day {
+  text-align: center;
+  padding: 36px 16px;
+  color: var(--muted);
+}
+.cal-empty-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--line-light);
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.cal-empty-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.cal-empty-sub {
+  font-size: 11.5px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* ==========================================================================
+   GIG PERFORMANCE & ANALYTICS STYLES
+   ========================================================================== */
+.gig-performance-panel {
+  margin-bottom: 24px;
+}
+.perf-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 16px 22px;
+  background: #fbfcfd;
+  border-bottom: 1px solid var(--line);
+}
+.perf-stat-pill {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+}
+.perf-stat-pill.highlight {
+  border-color: #a7f3d0;
+  background: #f0fdf4;
+}
+.perf-stat-num {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.perf-stat-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.gig-perf-row {
+  transition: background 0.15s ease;
+}
+.gig-perf-row:hover {
+  background: #fafcfb;
+}
+.perf-gig-cell {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  max-width: 320px;
+}
+.perf-gig-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+}
+.perf-gig-meta strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.perf-gig-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.perf-bar-wrap {
+  min-width: 90px;
+}
+.perf-bar-bg {
+  width: 100%;
+  height: 5px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+.perf-bar-fill {
+  height: 100%;
+  background: var(--fiverr-green);
+  border-radius: 3px;
+}
+.perf-conv-pill {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 2px;
+}
+.perf-conv-pill.high {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+.perf-conv-pill.normal {
+  background: #f1f5f9;
+  color: #475569;
+}
+.perf-rating-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: #b45309;
+  background: #fffbeb;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  border: 1px solid #fde68a;
+}
+.perf-actions-cell {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+}
+</style>
+</head>
+<body data-portal="business">
+
+<!-- ========================================================
+     AUTHENTICATION / LOGIN & SIGNUP SCREEN
+     ======================================================== -->
+<section class="auth-wrapper" id="login-section">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="brand">Ceylon<span>Xperiences</span></div>
+      <p>Seller Hub · Artisan & Experience Portal</p>
+    </div>
+
+    <!-- ACTIVE SESSION RECOGNITION (Shown if already signed in) -->
+    <div id="already-signed-box" class="active-session-card hidden">
+      <div class="active-session-header">
+        <div>
+          <span style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:700;">Currently Signed In</span>
+          <div style="font-size:16px;font-weight:700;color:var(--ink);margin-top:2px;" id="sess-name">Suresh Rajapaksa</div>
+          <small style="color:var(--muted);" id="sess-email">suresh@ceylonxperiences.lk</small>
+        </div>
+        <span class="tag live">Active</span>
+      </div>
+      <p style="font-size:12px;color:var(--ink-secondary);margin:6px 0 0;">You have an active session for this provider profile.</p>
+      <div class="active-session-btns">
+        <button type="button" class="btn primary" id="btn-enter-dashboard" style="flex:1;">Open Dashboard →</button>
+        <button type="button" class="btn" id="btn-switch-account">Switch / Sign Out</button>
+      </div>
+    </div>
+
+    <!-- TABS: SIGN IN vs SIGN UP -->
+    <div class="auth-tabs" id="auth-tabs">
+      <button type="button" class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+      <button type="button" class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Become a Host (Sign Up)</button>
+    </div>
+
+    <div class="error-banner hidden" id="auth-error" role="alert"></div>
+
+    <!-- TAB 1: SIGN IN FORM WITH QUICK HOST SELECTOR -->
+    <form id="login-form">
+      <div class="quick-host-select">
+        <label>Quick Select Verified Host:</label>
+        <div class="quick-host-pills">
+          <button type="button" class="quick-host-pill active" onclick="pickHostLogin('Suresh Rajapaksa')">Suresh Rajapaksa (Gems)</button>
+          <button type="button" class="quick-host-pill" onclick="pickHostLogin('Priya Jayawardena')">Priya Jayawardena (Cooking)</button>
+          <button type="button" class="quick-host-pill" onclick="pickHostLogin('Nimal Wickrama')">Nimal Wickrama (Pottery)</button>
+          <button type="button" class="quick-host-pill" onclick="pickHostLogin('Chamari Peiris')">Chamari Peiris (Tea)</button>
+          <button type="button" class="quick-host-pill" onclick="pickHostLogin('Amara de Silva')">Amara de Silva (Batik)</button>
+          <button type="button" class="quick-host-pill" onclick="pickHostLogin('Meena Arulpragasam')">Meena Arulpragasam (Jaffna)</button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="login-name">Host Name or Email Address</label>
+        <input id="login-name" name="identifier" type="text" required placeholder="e.g. Suresh Rajapaksa or email" value="Suresh Rajapaksa">
+        <span class="form-hint">Type any registered host name or email to access their dashboard.</span>
+      </div>
+
+      <div class="form-field">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label for="login-password">Password</label>
+          <span class="form-hint" style="color:var(--accent);font-weight:600;">Password for all: 0000</span>
+        </div>
+        <input id="login-password" name="password" type="password" required autocomplete="current-password" value="0000" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn primary" id="login-btn" style="width:100%;padding:11px;margin-top:6px;">Sign In to Seller Hub</button>
+      <p style="font-size:11px;text-align:center;color:var(--muted);margin-top:16px;">
+        Need to register a new host studio? <a href="#" onclick="switchAuthTab('signup');return false;">Sign up here</a><br>
+        <a href="index.html" style="display:inline-block;margin-top:6px;">← Back to Customer Website</a>
+      </p>
+    </form>
+
+    <!-- TAB 2: SIGN UP / BECOME A HOST FORM -->
+    <form id="signup-form" class="hidden">
+      <div class="form-field">
+        <label for="signup-name">Name of Host / Business Provider *</label>
+        <input id="signup-name" name="name" type="text" required placeholder="e.g. Suresh Rajapaksa">
+        <span class="form-hint">Your name or workshop name used to log in.</span>
+      </div>
+      <div class="form-field">
+        <label for="signup-role">Specialization / Role</label>
+        <input id="signup-role" name="role" type="text" placeholder="e.g. Master Gem Cutter">
+      </div>
+      <div class="form-field">
+        <label for="signup-email">Account Email Address *</label>
+        <input id="signup-email" name="email" type="email" required placeholder="suresh@ceylonxperiences.lk">
+      </div>
+      <div class="form-field">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label for="signup-password">Account Password *</label>
+          <span class="form-hint" style="color:var(--accent);font-weight:600;">Default: 0000</span>
+        </div>
+        <input id="signup-password" name="password" type="password" required minlength="4" value="0000" placeholder="0000">
+        <span class="form-hint">Set your password (minimum 4 characters, e.g. 0000).</span>
+      </div>
+      <div class="form-field">
+        <label for="signup-location">Studio Location / City *</label>
+        <input id="signup-location" name="location" type="text" required placeholder="e.g. Ratnapura, Sabaragamuwa">
+      </div>
+      <button type="submit" class="btn primary" id="signup-btn" style="width:100%;padding:11px;margin-top:6px;">Create Host Account & Launch Portal →</button>
+      <p style="font-size:11px;text-align:center;color:var(--muted);margin-top:16px;">
+        Already registered? <a href="#" onclick="switchAuthTab('login');return false;">Sign in to existing account</a>
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ========================================================
+     MAIN PROFESSIONAL BUSINESS OWNER DASHBOARD
+     ======================================================== -->
+<div class="shell hidden" id="app">
+  <!-- SIDEBAR (CLEAN PROFESSIONAL SVG ICONS - NO EMOJIS) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-box">
+      <div class="brand">Ceylon<span>Xperiences</span></div>
+      <span class="badge">Seller Hub</span>
+    </div>
+
+    <!-- HOST BUSINESS IDENTITY -->
+    <div class="sidebar-host-card">
+      <div class="host-avatar" id="sidebar-avatar">SR</div>
+      <div class="host-info">
+        <strong id="sidebar-host-name">Suresh Rajapaksa</strong>
+        <small id="sidebar-host-loc">Ratnapura</small>
+        <span class="host-status-tag">Verified Partner</span>
+      </div>
+    </div>
+
+    <!-- NAVIGATION MENU (CLEAN VECTOR ICONS) -->
+    <nav class="nav-menu" id="nav-menu">
+      <button type="button" class="active" data-section="overview">
+        <span class="nav-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Overview</span>
+        </span>
+      </button>
+      <button type="button" data-section="gigs">
+        <span class="nav-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span>My Gigs</span>
+        </span>
+        <span class="nav-counter" id="nav-gigs-count">0/6</span>
+      </button>
+      <button type="button" data-section="bookings">
+        <span class="nav-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Bookings</span>
+        </span>
+        <span class="nav-counter" id="nav-bookings-count">0</span>
+      </button>
+      <button type="button" data-section="blocks">
+        <span class="nav-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Availability</span>
+        </span>
+      </button>
+      <button type="button" data-section="payouts">
+        <span class="nav-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>Earnings & Payouts</span>
+        </span>
+      </button>
+      <button type="button" data-section="refunds">
+        <span class="nav-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+          <span>Refund Requests</span>
+        </span>
+      </button>
+      <button type="button" data-section="tickets">
+        <span class="nav-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Support Desk</span>
+        </span>
+      </button>
+      <button type="button" data-section="profile">
+        <span class="nav-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Business Profile</span>
+        </span>
+      </button>
+    </nav>
+
+    <!-- FOOTER IN SIDEBAR -->
+    <div class="sidebar-footer">
+      <a href="index.html" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span>View Customer Storefront</span>
+      </a>
+      <div style="font-size:11px;color:var(--muted);padding:4px 0;" id="user-email-label">suresh@ceylonxperiences.lk</div>
+      <button type="button" class="btn small" id="btn-change-pw" onclick="openPasswordModal()">Change Password</button>
+      <button type="button" class="btn small danger" id="btn-logout" onclick="signOutAccount()">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- WORKSPACE -->
+  <div class="workspace">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="mobile-toggle" id="btn-mobile-menu" aria-label="Toggle navigation">☰</button>
+        <div class="breadcrumb">
+          <span>Seller Hub</span> / <strong id="topbar-title">Overview</strong>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="fee-pill">Platform Fee: <strong>3%</strong></span>
+        <button type="button" class="btn primary small" id="btn-quick-create-gig" onclick="openCreateGigModal()">+ Create Gig (<span id="top-gig-count">0</span>/6)</button>
+        <button type="button" class="btn small" onclick="loadData();notify('Dashboard refreshed')">Refresh</button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+      <div class="header-row">
+        <div class="header-titles">
+          <h1 id="page-title">Business Overview</h1>
+          <p id="page-subtitle">Track your artisanal experience performance, bookings, and revenue.</p>
+        </div>
+        <div class="header-actions" id="page-actions"></div>
+      </div>
+
+      <!-- DYNAMIC SECTION CONTAINER -->
+      <div id="view-container"></div>
+    </main>
+  </div>
+</div>
+
+<!-- ========================================================
+     MODALS
+     ======================================================== -->
+<dialog id="modal">
+  <div class="dialog-head">
+    <h2 id="modal-title">Experience Gig</h2>
+    <button type="button" class="btn small" onclick="closeModal()">✕</button>
+  </div>
+  <div class="dialog-body" id="modal-body"></div>
+  <div class="dialog-footer" id="modal-footer"></div>
+</dialog>
+
+<!-- TOAST -->
+<div class="toast hidden" id="toast"></div>
+
+<!-- ========================================================
+     CLIENT-SIDE DUMMY STORAGE & BACKEND ENGINE
+     ======================================================== -->
+<script>
+'use strict';
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const E = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cash = n => 'LKR ' + Number(n || 0).toLocaleString('en-LK', { maximumFractionDigits: 0 });
+
+let currentHost = null;
+let currentSection = 'overview';
+let activeAuthTab = 'login';
+let bookingQuery = '';
+let bookingStatusFilter = '';
+
+// 1-CLICK PHOTO PRESETS
+const GIG_PHOTO_PRESETS = [
+  { label: 'Gems', cat: 'Gems', url: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=800&q=80' },
+  { label: 'Gem Pits', cat: 'Gems', url: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80' },
+  { label: 'Cooking', cat: 'Cooking', url: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=800&q=80' },
+  { label: 'Street Food', cat: 'Cooking', url: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80' },
+  { label: 'Pottery', cat: 'Pottery', url: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80' },
+  { label: 'Ceylon Tea', cat: 'Tea', url: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=800&q=80' },
+  { label: 'Batik', cat: 'Crafts', url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80' },
+  { label: 'Galle Fort', cat: 'Culture', url: 'https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80' }
+];
+
+// PRE-CONFIGURED ARTISANS & GIGS (MATCHING THE WEBSITE'S REAL HOSTS)
+const SEED_HOSTS = [
+  {
+    id: 'H-002',
+    name: 'Suresh Rajapaksa',
+    owner: 'Suresh Rajapaksa',
+    role: 'Master Gem Cutter',
+    email: 'suresh@ceylonxperiences.lk',
+    password: '0000',
+    phone: '+94 77 234 5678',
+    location: 'Ratnapura, Sabaragamuwa Province',
+    status: 'active',
+    verified: true,
+    commission: 3
+  },
+  {
+    id: 'H-001',
+    name: 'Priya Jayawardena',
+    owner: 'Priya Jayawardena',
+    role: 'Master Home Cook',
+    email: 'priya@ceylonxperiences.lk',
+    password: '0000',
+    phone: '+94 77 123 4567',
+    location: 'Colombo Fort, Western Province',
+    status: 'active',
+    verified: true,
+    commission: 3
+  },
+  {
+    id: 'H-003',
+    name: 'Nimal Wickrama',
+    owner: 'Nimal Wickrama',
+    role: 'Pottery Master',
+    email: 'nimal@ceylonxperiences.lk',
+    password: '0000',
+    phone: '+94 77 345 6789',
+    location: 'Kelaniya, Western Province',
+    status: 'active',
+    verified: true,
+    commission: 3
+  },
+  {
+    id: 'H-004',
+    name: 'Chamari Peiris',
+    owner: 'Chamari Peiris',
+    role: 'Tea Estate Supervisor & Taster',
+    email: 'chamari@ceylonxperiences.lk',
+    password: '0000',
+    phone: '+94 77 456 7890',
+    location: 'Nuwara Eliya, Central Province',
+    status: 'active',
+    verified: true,
+    commission: 3
+  },
+  {
+    id: 'H-005',
+    name: 'Amara de Silva',
+    owner: 'Amara de Silva',
+    role: 'Batik Master',
+    email: 'amara@ceylonxperiences.lk',
+    password: '0000',
+    phone: '+94 77 567 8901',
+    location: 'Galle Fort, Southern Province',
+    status: 'active',
+    verified: true,
+    commission: 3
+  },
+  {
+    id: 'H-006',
+    name: 'Meena Arulpragasam',
+    owner: 'Meena Arulpragasam',
+    role: 'Coastal Home Cook',
+    email: 'meena@ceylonxperiences.lk',
+    password: '0000',
+    phone: '+94 77 678 9012',
+    location: 'Jaffna Coastline, Northern Province',
+    status: 'active',
+    verified: true,
+    commission: 3
+  }
+];
+
+const SEED_GIGS = [
+  // 1. SURESH RAJAPAKSA (GEMS & JEWELLERY - RATNAPURA)
+  {
+    id: 'L-201',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    hostEmail: 'suresh@ceylonxperiences.lk',
+    title: 'I will teach you sapphire faceting and gem grading on a traditional lap wheel',
+    category: 'Gems & Jewellery',
+    location: 'Ratnapura Gem Bazaar, Sabaragamuwa',
+    duration: '4 hours',
+    price: 18000,
+    capacity: 4,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Gem faceting session, Finished gemstone, Gem grading certificate, Tea & refreshments',
+    description: 'Sit with a third-generation gem cutter in Ratnapura. Learn how raw corundum becomes a dazzling blue sapphire — from rough grading to faceting on a traditional lap wheel.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+  {
+    id: 'L-202',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    hostEmail: 'suresh@ceylonxperiences.lk',
+    title: 'I will guide you through Ratnapura alluvial gem pits and river gravel washing',
+    category: 'Gems & Jewellery',
+    location: 'Ratnapura Mines, Sabaragamuwa',
+    duration: '3.5 hours',
+    price: 12500,
+    capacity: 6,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Shaft descent, Illam gravel washing, Mineral sorting session, Miner breakfast',
+    description: 'Descend into an active artisanal gem shaft, learn traditional illam washing techniques with bamboo baskets, and identify spinels and tourmalines in mountain gravel.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+  {
+    id: 'L-203',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    hostEmail: 'suresh@ceylonxperiences.lk',
+    title: 'I will conduct private Ceylon rough sapphire grading and heat-enhancement masterclass',
+    category: 'Gems & Jewellery',
+    location: 'Ratnapura Gem Bazaar, Sabaragamuwa',
+    duration: '3 hours',
+    price: 24000,
+    capacity: 4,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80',
+    inclusions: '10x Loupe inspection, Specific gravity testing, Heat kiln observation, Mineral specimen to keep',
+    description: 'Master the optical properties, crystal systems, and heat treatment ovens used for Ceylon corundum with a certified Ratnapura gemmologist.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+
+  // 2. PRIYA JAYAWARDENA (COOKING & CUISINE - COLOMBO)
+  {
+    id: 'L-101',
+    host: 'H-001',
+    hostName: 'Priya Jayawardena',
+    hostEmail: 'priya@ceylonxperiences.lk',
+    title: 'I will teach you 5 authentic Sri Lankan curries with lunch and spices',
+    category: 'Cooking & Cuisine',
+    location: 'Colombo Fort, Western Province',
+    duration: '3 hours',
+    price: 6500,
+    capacity: 6,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Apron & Equipment, All Ingredients, Full Lunch, Recipe Booklet',
+    description: 'Join our family kitchen in Pettah. Learn to grind fresh coconut sambol, temper fragrant mustard and curry leaves, and master 5 signature Ceylon curries.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+  {
+    id: 'L-102',
+    host: 'H-001',
+    hostName: 'Priya Jayawardena',
+    hostEmail: 'priya@ceylonxperiences.lk',
+    title: 'I will take you on a Pettah spice market crawl and clay pot hopper masterclass',
+    category: 'Cooking & Cuisine',
+    location: 'Colombo Fort, Western Province',
+    duration: '3.5 hours',
+    price: 8500,
+    capacity: 6,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Market tasting snacks, Fresh spices to take home, Unlimited egg hoppers, King coconut water',
+    description: 'Explore the sensory alleys of Pettah 5th Cross Street spice merchants, then return to our heritage kitchen to swirl crispy hoppers in seasoned clay woks.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+
+  // 3. NIMAL WICKRAMA (POTTERY & CERAMICS - KELANIYA)
+  {
+    id: 'L-301',
+    host: 'H-003',
+    hostName: 'Nimal Wickrama',
+    hostEmail: 'nimal@ceylonxperiences.lk',
+    title: 'I will teach you ancient Kelaniya wheel pottery and wood kiln firing',
+    category: 'Pottery & Ceramics',
+    location: 'Kelaniya, Western Province',
+    duration: '2.5 hours',
+    price: 4500,
+    capacity: 8,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Wheel throwing session, Clay & tools, Fired pottery to take home, Workshop tea',
+    description: 'Work the wheel with a 12th-generation master potter. Shape your own terracotta vessel, engrave traditional leaf motifs, and fire it in a wood kiln.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+  {
+    id: 'L-302',
+    host: 'H-003',
+    hostName: 'Nimal Wickrama',
+    hostEmail: 'nimal@ceylonxperiences.lk',
+    title: 'I will guide you in throwing traditional terracotta water carafes and oil lamps',
+    category: 'Pottery & Ceramics',
+    location: 'Kelaniya, Western Province',
+    duration: '3 hours',
+    price: 5200,
+    capacity: 6,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Terracotta vessel, Glazing materials, Firing service, Studio refreshments',
+    description: 'Hands-on pottery masterclass focusing on traditional Sri Lankan earthenware: burnishing with river stones and relief stamping.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+
+  // 4. CHAMARI PEIRIS (TEA & PLANTATIONS - NUWARA ELIYA)
+  {
+    id: 'L-401',
+    host: 'H-004',
+    hostName: 'Chamari Peiris',
+    hostEmail: 'chamari@ceylonxperiences.lk',
+    title: 'I will guide you through high-country tea plucking and orthodox tasting',
+    category: 'Ceylon Tea & Plantations',
+    location: 'Nuwara Eliya, Central Province',
+    duration: '4 hours',
+    price: 6200,
+    capacity: 8,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Estate walk, Factory tour, Tea tasting flight, Custom blended 100g tin',
+    description: 'Walk misty hillside rows with an estate supervisor. Learn two leaves and a bud plucking, orthodox rolling, and blend your own private vintage.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+  {
+    id: 'L-402',
+    host: 'H-004',
+    hostName: 'Chamari Peiris',
+    hostEmail: 'chamari@ceylonxperiences.lk',
+    title: 'I will teach you artisanal micro-lot silver tip white tea harvesting and hand-rolling',
+    category: 'Ceylon Tea & Plantations',
+    location: 'Nuwara Eliya, Central Province',
+    duration: '3 hours',
+    price: 7800,
+    capacity: 6,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Silver tip harvesting, Hand rolling, 50g vacuum pack of your tea, High tea with scones',
+    description: 'Learn the delicate art of harvesting unopened tea buds at 6,000 feet elevation and sun-withering on bamboo trays.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+
+  // 5. AMARA DE SILVA (BATIK & TEXTILES - GALLE FORT)
+  {
+    id: 'L-501',
+    host: 'H-005',
+    hostName: 'Amara de Silva',
+    hostEmail: 'amara@ceylonxperiences.lk',
+    title: 'I will teach you traditional wax-resist batik dyeing in Galle Fort',
+    category: 'Batik & Textiles',
+    location: 'Galle Fort, Southern Province',
+    duration: '3.5 hours',
+    price: 5500,
+    capacity: 6,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'All dye materials, Finished silk batik scarf, Artist certificate',
+    description: 'Inside a colonial Dutch-era workshop in Galle Fort, learn wax-resist batik. Apply hot wax with a tjanting pen and dye a 1-metre silk scarf.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+  {
+    id: 'L-502',
+    host: 'H-005',
+    hostName: 'Amara de Silva',
+    hostEmail: 'amara@ceylonxperiences.lk',
+    title: 'I will host an indigo vat fermentation and botanical leaf printing workshop',
+    category: 'Batik & Textiles',
+    location: 'Galle Fort, Southern Province',
+    duration: '3 hours',
+    price: 6800,
+    capacity: 6,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Organic linen fabric, Indigo dye bath, Steam fixing, Finished wall hanging',
+    description: 'Dip pure linen into fermented natural indigo vats and create resist patterns using wooden blocks carved with traditional Sinhala motifs.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+
+  // 6. MEENA ARULPRAGASAM (CULINARY & HERITAGE - JAFFNA)
+  {
+    id: 'L-601',
+    host: 'H-006',
+    hostName: 'Meena Arulpragasam',
+    hostEmail: 'meena@ceylonxperiences.lk',
+    title: 'I will teach you authentic Jaffna crab curry, roasted spice powder and odiyal kool',
+    category: 'Cooking & Cuisine',
+    location: 'Jaffna Peninsula, Northern Province',
+    duration: '4 hours',
+    price: 9500,
+    capacity: 6,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Fresh lagoon crab, Ground spices, Traditional lunch banquet, Palmyrah dessert',
+    description: 'Pound black pepper, fennel, and roasted coriander in a granite ammi kal stone to cook northern Sri Lanka’s legendary spicy lagoon crab curry.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  },
+  {
+    id: 'L-602',
+    host: 'H-006',
+    hostName: 'Meena Arulpragasam',
+    hostEmail: 'meena@ceylonxperiences.lk',
+    title: 'I will guide you through palmyrah palm craft, sweet jaggery making and toddy tasting',
+    category: 'Cultural Heritage',
+    location: 'Point Pedro, Jaffna',
+    duration: '3 hours',
+    price: 5500,
+    capacity: 8,
+    status: 'live',
+    imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+    inclusions: 'Toddy tasting, Palmyrah jaggery tasting, Woven palm basket to keep, Refreshments',
+    description: 'Learn the 801 uses of the northern palmyrah tree from local palm tappers. Weave palm leaf baskets and boil sap into sweet brown jaggery.',
+    policy: 'Cancel at least 48 hours before the session for a full refund.'
+  }
+];
+
+const SEED_BOOKINGS = [
+  // SURESH RAJAPAKSA BOOKINGS (Ratnapura Gems & Lapidary)
+  {
+    id: 'B-201',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    listing: 'L-201',
+    title: 'I will teach you sapphire faceting and gem grading on a traditional lap wheel',
+    guest: 'David Miller',
+    email: 'david.m@uktravel.co.uk',
+    date: '2026-11-16',
+    slot: '10:00 - 14:00',
+    guests: 2,
+    amount: 36000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'VISA-9942-AUTH',
+    refunded: 0,
+    note: 'Interested in Ceylon blue sapphires and cutting geometry'
+  },
+  {
+    id: 'B-202',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    listing: 'L-202',
+    title: 'I will guide you through Ratnapura alluvial gem pits and river gravel washing',
+    guest: 'Claire Laurent',
+    email: 'c.laurent@paris.fr',
+    date: '2026-11-20',
+    slot: '10:00 - 13:30',
+    guests: 2,
+    amount: 25000,
+    commission: 3,
+    status: 'requested',
+    payment: 'unpaid',
+    refunded: 0,
+    note: 'Would like boots provided if possible'
+  },
+  {
+    id: 'B-203',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    listing: 'L-201',
+    title: 'I will teach you sapphire faceting and gem grading on a traditional lap wheel',
+    guest: 'Kenji Takahashi',
+    email: 'kenji@tokyo-gem.jp',
+    date: '2026-11-06',
+    slot: '10:00 - 14:00',
+    guests: 1,
+    amount: 18000,
+    commission: 3,
+    status: 'completed',
+    payment: 'paid',
+    paymentRef: 'CARD-AUTH-8821',
+    refunded: 0,
+    note: 'Faceted a natural star corundum cabochon'
+  },
+  {
+    id: 'B-204',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    listing: 'L-201',
+    title: 'I will teach you sapphire faceting and gem grading on a traditional lap wheel',
+    guest: 'Elena Rostova',
+    email: 'elena.rostova@gemmology.at',
+    date: '2026-11-10',
+    slot: '14:00 - 18:00',
+    guests: 2,
+    amount: 36000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'STRIPE-CH-8201',
+    refunded: 0,
+    note: 'Visiting from Vienna, passionate about padparadscha and yellow sapphires'
+  },
+  {
+    id: 'B-205',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    listing: 'L-203',
+    title: 'I will conduct private Ceylon rough sapphire grading and heat-enhancement masterclass',
+    guest: 'Marcus Vance',
+    email: 'marcus.vance@jewelers-hub.com',
+    date: '2026-11-24',
+    slot: '11:00 - 14:00',
+    guests: 1,
+    amount: 24000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'MC-AUTH-6109',
+    refunded: 0,
+    note: 'Wholesale jewellery designer from London'
+  },
+  {
+    id: 'B-206',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    listing: 'L-202',
+    title: 'I will guide you through Ratnapura alluvial gem pits and river gravel washing',
+    guest: 'Sophie & Julien Bernard',
+    email: 'bernard.family@lyon.fr',
+    date: '2026-11-28',
+    slot: '09:30 - 13:00',
+    guests: 3,
+    amount: 37500,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'VISA-3391-AUTH',
+    refunded: 0,
+    note: 'Family eco-tour, looking forward to basket gravel washing'
+  },
+  {
+    id: 'B-207',
+    host: 'H-002',
+    hostName: 'Suresh Rajapaksa',
+    listing: 'L-201',
+    title: 'I will teach you sapphire faceting and gem grading on a traditional lap wheel',
+    guest: 'Oliver Smith',
+    email: 'oliver.smith@sydney.au',
+    date: '2026-12-04',
+    slot: '10:00 - 14:00',
+    guests: 2,
+    amount: 36000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'AMEX-8832-AUTH',
+    refunded: 0,
+    note: 'Honeymoon couple booking'
+  },
+
+  // PRIYA JAYAWARDENA BOOKINGS (Cooking & Cuisine)
+  {
+    id: 'B-101',
+    host: 'H-001',
+    hostName: 'Priya Jayawardena',
+    listing: 'L-101',
+    title: 'I will teach you 5 authentic Sri Lankan curries with lunch and spices',
+    guest: 'Emma Watson',
+    email: 'emma.w@traveler.co.uk',
+    date: '2026-11-18',
+    slot: '11:00 - 14:00',
+    guests: 2,
+    amount: 13000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'MC-AUTH-7712',
+    refunded: 0,
+    note: 'Vegetarian curry preference for one guest'
+  },
+  {
+    id: 'B-102',
+    host: 'H-001',
+    hostName: 'Priya Jayawardena',
+    listing: 'L-102',
+    title: 'I will take you on a Pettah spice market crawl and clay pot hopper masterclass',
+    guest: 'Liam Henderson',
+    email: 'liam.h@melb-food.au',
+    date: '2026-11-10',
+    slot: '09:00 - 12:30',
+    guests: 2,
+    amount: 17000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'VISA-4412-AUTH',
+    refunded: 0,
+    note: 'Wants extra spicy seeni sambol'
+  },
+  {
+    id: 'B-103',
+    host: 'H-001',
+    hostName: 'Priya Jayawardena',
+    listing: 'L-101',
+    title: 'I will teach you 5 authentic Sri Lankan curries with lunch and spices',
+    guest: 'Hannah Schmidt',
+    email: 'h.schmidt@berlin-chef.de',
+    date: '2026-11-25',
+    slot: '11:00 - 14:00',
+    guests: 3,
+    amount: 19500,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'PAYPAL-8109',
+    refunded: 0,
+    note: 'Professional culinary group'
+  },
+
+  // NIMAL WICKRAMA BOOKINGS (Pottery & Ceramics)
+  {
+    id: 'B-301',
+    host: 'H-003',
+    hostName: 'Nimal Wickrama',
+    listing: 'L-301',
+    title: 'I will teach you ancient Kelaniya wheel pottery and wood kiln firing',
+    guest: 'Lucas Meyer',
+    email: 'lucas.m@berlin-design.de',
+    date: '2026-11-19',
+    slot: '14:00 - 16:30',
+    guests: 2,
+    amount: 9000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'AMEX-AUTH-3301',
+    refunded: 0,
+    note: 'Ceramics design student from Berlin'
+  },
+  {
+    id: 'B-302',
+    host: 'H-003',
+    hostName: 'Nimal Wickrama',
+    listing: 'L-302',
+    title: 'I will guide you in throwing traditional terracotta water carafes and oil lamps',
+    guest: 'Chantal Dupont',
+    email: 'chantal.dupont@geneve.ch',
+    date: '2026-11-10',
+    slot: '10:00 - 13:00',
+    guests: 1,
+    amount: 5200,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'VISA-9921-AUTH',
+    refunded: 0,
+    note: 'Creating temple oil lamp'
+  },
+
+  // CHAMARI PEIRIS BOOKINGS (Tea & Plantations)
+  {
+    id: 'B-401',
+    host: 'H-004',
+    hostName: 'Chamari Peiris',
+    listing: 'L-401',
+    title: 'I will take you on a misty mountain tea plucking and artisanal factory tasting',
+    guest: 'Thomas Sterling',
+    email: 'thomas.s@london-tea.co.uk',
+    date: '2026-11-15',
+    slot: '09:00 - 12:30',
+    guests: 2,
+    amount: 12400,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'MC-AUTH-8812',
+    refunded: 0,
+    note: 'Tea importer visiting estates'
+  },
+
+  // AMARA DE SILVA BOOKINGS (Batik & Textiles)
+  {
+    id: 'B-501',
+    host: 'H-005',
+    hostName: 'Amara de Silva',
+    listing: 'L-501',
+    title: 'I will teach you traditional wax-resist batik dyeing in Galle Fort',
+    guest: 'Clara Becker',
+    email: 'c.becker@vienna-art.at',
+    date: '2026-11-12',
+    slot: '10:00 - 13:30',
+    guests: 2,
+    amount: 11000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'VISA-5510-AUTH',
+    refunded: 0,
+    note: 'Fashion design educator'
+  },
+
+  // MEENA ARULPRAGASAM BOOKINGS (Culinary & Heritage)
+  {
+    id: 'B-601',
+    host: 'H-006',
+    hostName: 'Meena Arulpragasam',
+    listing: 'L-601',
+    title: 'I will teach you authentic Jaffna crab curry, roasted spice powder and odiyal kool',
+    guest: 'Arjun Patel',
+    email: 'arjun.p@mumbai.in',
+    date: '2026-11-17',
+    slot: '11:00 - 15:00',
+    guests: 4,
+    amount: 38000,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'paid',
+    paymentRef: 'AMEX-6621-AUTH',
+    refunded: 0,
+    note: 'Family culinary gathering'
+  }
+];
+
+const SEED_BLOCKS = [
+  { id: 'BLK-201', host: 'H-002', hostName: 'Suresh Rajapaksa', listing: 'L-201', listingTitle: 'Sapphire Faceting & Gem Grading', date: '2026-11-13', slot: '10:00 - 14:00', reason: 'Lapidary machinery maintenance & diamond disk polishing' }
+];
+
+// INITIALIZE DUMMY STORAGE
+function initDefaultData() {
+  // 1. Ensure all SEED_HOSTS exist in cxp_hosts with 3% commission
+  let hosts = [];
+  try {
+    const raw = localStorage.getItem('cxp_hosts');
+    hosts = raw ? JSON.parse(raw) : [];
+  } catch (e) {}
+
+  if (!Array.isArray(hosts) || hosts.length === 0) {
+    hosts = SEED_HOSTS;
+  } else {
+    SEED_HOSTS.forEach(sh => {
+      const idx = hosts.findIndex(h => 
+        h.id === sh.id || 
+        h.name.toLowerCase() === sh.name.toLowerCase() ||
+        (h.email && sh.email && h.email.toLowerCase() === sh.email.toLowerCase())
+      );
+      if (idx >= 0) {
+        hosts[idx] = { ...sh, ...hosts[idx], id: sh.id, commission: 3 };
+      } else {
+        hosts.push(sh);
+      }
+    });
+  }
+  localStorage.setItem('cxp_hosts', JSON.stringify(hosts));
+
+  // 2. Ensure all SEED_GIGS exist in cxp_host_gigs
+  let gigs = [];
+  try {
+    const rawGigs = localStorage.getItem('cxp_host_gigs');
+    gigs = rawGigs ? JSON.parse(rawGigs) : [];
+  } catch (e) {}
+
+  if (!Array.isArray(gigs) || gigs.length === 0) {
+    gigs = SEED_GIGS;
+  } else {
+    // Merge any missing seed gigs into existing array so gigs are NEVER lost
+    SEED_GIGS.forEach(sg => {
+      const exists = gigs.some(g => g.id === sg.id || (g.title && g.title.toLowerCase() === sg.title.toLowerCase()));
+      if (!exists) {
+        gigs.push(sg);
+      }
+    });
+  }
+  localStorage.setItem('cxp_host_gigs', JSON.stringify(gigs));
+
+  // 3. Ensure SEED_BOOKINGS exist in cxp_host_bookings
+  let bookings = [];
+  try {
+    const rawBookings = localStorage.getItem('cxp_host_bookings');
+    bookings = rawBookings ? JSON.parse(rawBookings) : [];
+  } catch (e) {}
+
+  if (!Array.isArray(bookings) || bookings.length === 0) {
+    bookings = SEED_BOOKINGS;
+  } else {
+    SEED_BOOKINGS.forEach(sb => {
+      if (!bookings.some(b => b.id === sb.id)) bookings.push(sb);
+    });
+  }
+  localStorage.setItem('cxp_host_bookings', JSON.stringify(bookings));
+
+  // 4. Ensure SEED_BLOCKS exist in cxp_host_blocks
+  let blocks = [];
+  try {
+    const rawBlocks = localStorage.getItem('cxp_host_blocks');
+    blocks = rawBlocks ? JSON.parse(rawBlocks) : [];
+  } catch (e) {}
+
+  if (!Array.isArray(blocks) || blocks.length === 0) {
+    blocks = SEED_BLOCKS;
+  } else {
+    SEED_BLOCKS.forEach(sb => {
+      if (!blocks.some(b => b.id === sb.id)) blocks.push(sb);
+    });
+  }
+  localStorage.setItem('cxp_host_blocks', JSON.stringify(blocks));
+  if (!localStorage.getItem('cxp_host_payouts')) {
+    localStorage.setItem('cxp_host_payouts', JSON.stringify([
+      { id: 'P-201', host: 'H-002', hostName: 'Suresh Rajapaksa', amount: 17460, date: '2026-11-07', reference: 'COMM-BANK-SETTLE-3912', status: 'recorded' }
+    ]));
+  }
+  if (!localStorage.getItem('cxp_host_refunds')) {
+    localStorage.setItem('cxp_host_refunds', JSON.stringify([]));
+  }
+  if (!localStorage.getItem('cxp_host_tickets')) {
+    localStorage.setItem('cxp_host_tickets', JSON.stringify([
+      { id: 'T-201', host: 'H-002', hostName: 'Suresh Rajapaksa', subject: 'Gem grading certification envelopes stock', priority: 'normal', status: 'resolved', message: 'Please dispatch additional official seal envelopes for completed guest gemstones.', reply: 'Envelope pack dispatched via Courier to your Ratnapura workshop.' }
+    ]));
+  }
+}
+
+// STORAGE DATA RETRIEVERS FILTERED BY ACTIVE HOST
+function getHosts() { return JSON.parse(localStorage.getItem('cxp_hosts') || '[]'); }
+function getAllGigs() { return JSON.parse(localStorage.getItem('cxp_host_gigs') || '[]'); }
+
+function getGigs() { 
+  if (!currentHost) return [];
+  const allGigs = getAllGigs();
+  const hostId = String(currentHost.id || '').trim();
+  const hostName = (currentHost.name || '').trim().toLowerCase();
+  const hostEmail = (currentHost.email || '').trim().toLowerCase();
+
+  let matched = allGigs.filter(g => {
+    if (g.host && String(g.host).trim() === hostId) return true;
+    if (g.hostId && String(g.hostId).trim() === hostId) return true;
+    if (g.hostEmail && g.hostEmail.toLowerCase() === hostEmail) return true;
+    if (g.hostName && g.hostName.toLowerCase() === hostName) return true;
+    if (hostName) {
+      if (g.hostName && (g.hostName.toLowerCase().includes(hostName) || hostName.includes(g.hostName.toLowerCase()))) return true;
+      if (g.artisan && (g.artisan.toLowerCase().includes(hostName) || hostName.includes(g.artisan.toLowerCase()))) return true;
+      if (hostName.includes('suresh') && (g.host === 'H-002' || (g.category && g.category.includes('Gem')) || (g.location && g.location.toLowerCase().includes('ratnapura')))) return true;
+      if (hostName.includes('priya') && (g.host === 'H-001' || (g.hostName && g.hostName.includes('Priya')) || (g.category && g.category.includes('Cooking')))) return true;
+      if (hostName.includes('nimal') && (g.host === 'H-003' || (g.category && g.category.includes('Pottery')))) return true;
+      if (hostName.includes('chamari') && (g.host === 'H-004' || (g.category && g.category.includes('Tea')))) return true;
+      if (hostName.includes('amara') && (g.host === 'H-005' || (g.category && g.category.includes('Batik')))) return true;
+      if (hostName.includes('meena') && (g.host === 'H-006' || (g.location && g.location.toLowerCase().includes('jaffna')))) return true;
+    }
+    return false;
+  });
+
+  // If this host somehow has 0 gigs (e.g. newly registered custom studio name), auto-populate 2 starter gigs so their dashboard is ready to manage
+  if (matched.length === 0 && currentHost.name) {
+    const starterGigs = [
+      {
+        id: 'L-' + Math.floor(1000 + Math.random() * 9000),
+        host: currentHost.id,
+        hostName: currentHost.name,
+        hostEmail: currentHost.email || '',
+        title: `I will host an authentic hands-on ${currentHost.role || 'artisanal craft'} workshop`,
+        category: (currentHost.role && currentHost.role.toLowerCase().includes('cook')) ? 'Cooking & Cuisine' : 'Cultural Heritage',
+        location: currentHost.location || 'Sri Lanka',
+        duration: '3 hours',
+        price: 7500,
+        capacity: 6,
+        status: 'live',
+        imageUrl: GIG_PHOTO_PRESETS[0].url,
+        inclusions: 'All materials & equipment, Finished item to take home, Traditional refreshments',
+        description: `Join ${currentHost.name} for an authentic, immersive micro-experience in our studio. Learn traditional techniques and local heritage firsthand.`,
+        policy: 'Cancel at least 48 hours before the session for a full refund.'
+      },
+      {
+        id: 'L-' + Math.floor(1000 + Math.random() * 9000),
+        host: currentHost.id,
+        hostName: currentHost.name,
+        hostEmail: currentHost.email || '',
+        title: `I will guide a private insider studio and heritage discovery tour with ${currentHost.name}`,
+        category: 'Cultural Heritage',
+        location: currentHost.location || 'Sri Lanka',
+        duration: '2.5 hours',
+        price: 5200,
+        capacity: 8,
+        status: 'live',
+        imageUrl: GIG_PHOTO_PRESETS[1].url,
+        inclusions: 'Studio tour, Behind-the-scenes demonstration, Artisan Q&A, Ceylon tea',
+        description: `An intimate behind-the-scenes glimpse into artisanal craftsmanship with ${currentHost.name}.`,
+        policy: 'Cancel at least 48 hours before the session for a full refund.'
+      }
+    ];
+
+    allGigs.push(...starterGigs);
+    localStorage.setItem('cxp_host_gigs', JSON.stringify(allGigs));
+    matched = starterGigs;
+  }
+
+  return matched;
+}
+
+function getAllBookings() { return JSON.parse(localStorage.getItem('cxp_host_bookings') || '[]'); }
+
+function getBookings() { 
+  if (!currentHost) return [];
+  const allBookings = getAllBookings();
+  const hostId = String(currentHost.id || '').trim();
+  const hostName = (currentHost.name || '').trim().toLowerCase();
+
+  return allBookings.filter(b => {
+    if (b.host && String(b.host).trim() === hostId) return true;
+    if (b.hostName && b.hostName.toLowerCase() === hostName) return true;
+    if (hostName.includes('suresh') && (b.host === 'H-002' || (b.listing && (b.listing === 'L-201' || b.listing === 'L-202' || b.listing === 'L-203')))) return true;
+    if (hostName.includes('priya') && (b.host === 'H-001' || (b.listing && (b.listing === 'L-101' || b.listing === 'L-102')))) return true;
+    if (hostName.includes('nimal') && (b.host === 'H-003' || (b.listing && (b.listing === 'L-301' || b.listing === 'L-302')))) return true;
+    if (hostName.includes('chamari') && (b.host === 'H-004' || (b.listing && (b.listing === 'L-401' || b.listing === 'L-402')))) return true;
+    if (hostName.includes('amara') && (b.host === 'H-005' || (b.listing && (b.listing === 'L-501' || b.listing === 'L-502')))) return true;
+    if (hostName.includes('meena') && (b.host === 'H-006' || (b.listing && b.listing.startsWith('L-6')))) return true;
+    return false;
+  });
+}
+
+function getAllBlocks() { return JSON.parse(localStorage.getItem('cxp_host_blocks') || '[]'); }
+function getBlocks() { 
+  if (!currentHost) return [];
+  return getAllBlocks().filter(b => b.host === currentHost.id); 
+}
+function getPayouts() { 
+  if (!currentHost) return [];
+  return JSON.parse(localStorage.getItem('cxp_host_payouts') || '[]').filter(p => p.host === currentHost.id); 
+}
+function getRefunds() { 
+  if (!currentHost) return [];
+  return JSON.parse(localStorage.getItem('cxp_host_refunds') || '[]').filter(r => r.host === currentHost.id); 
+}
+function getTickets() { 
+  if (!currentHost) return [];
+  return JSON.parse(localStorage.getItem('cxp_host_tickets') || '[]').filter(t => !t.host || t.host === currentHost.id); 
+}
+
+function notify(text) {
+  const t = $('#toast');
+  t.textContent = text;
+  t.classList.remove('hidden');
+  clearTimeout(notify.timer);
+  notify.timer = setTimeout(() => t.classList.add('hidden'), 3500);
+}
+
+// QUICK HOST LOGIN SELECTOR CHIP
+function pickHostLogin(name) {
+  $('#login-name').value = name;
+  $('#login-password').value = '0000';
+  $$('.quick-host-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.includes(name));
+  });
+}
+
+// SWITCH AUTH TAB (LOGIN vs SIGNUP)
+function switchAuthTab(tab) {
+  activeAuthTab = tab;
+  $('#tab-login').classList.toggle('active', tab === 'login');
+  $('#tab-signup').classList.toggle('active', tab === 'signup');
+  $('#login-form').classList.toggle('hidden', tab !== 'login');
+  $('#signup-form').classList.toggle('hidden', tab !== 'signup');
+  $('#auth-error').classList.add('hidden');
+}
+
+// CHECK AUTH STATUS ON INIT
+function checkAuth() {
+  initDefaultData();
+  const rawHost = localStorage.getItem('cxp_current_host');
+  if (rawHost) {
+    try {
+      currentHost = JSON.parse(rawHost);
+      // Normalize with SEED_HOSTS if name or email matches
+      if (currentHost && currentHost.name) {
+        const seedMatch = SEED_HOSTS.find(sh => 
+          sh.name.toLowerCase() === currentHost.name.toLowerCase() ||
+          (sh.email && currentHost.email && sh.email.toLowerCase() === currentHost.email.toLowerCase()) ||
+          currentHost.name.toLowerCase().includes(sh.name.toLowerCase()) ||
+          sh.name.toLowerCase().includes(currentHost.name.toLowerCase())
+        );
+        if (seedMatch) {
+          currentHost = { ...seedMatch, ...currentHost, id: seedMatch.id, commission: 3 };
+          localStorage.setItem('cxp_current_host', JSON.stringify(currentHost));
+        }
+      }
+      $('#already-signed-box').classList.remove('hidden');
+      $('#sess-name').textContent = currentHost.name || 'Business Host';
+      $('#sess-email').textContent = currentHost.email || '';
+      enterDashboard();
+      return;
+    } catch (e) {}
+  }
+
+  // If no session, show login form defaulted to Suresh Rajapaksa
+  $('#already-signed-box').classList.add('hidden');
+  $('#login-section').classList.remove('hidden');
+  $('#app').classList.add('hidden');
+}
+
+function enterDashboard() {
+  $('#login-section').classList.add('hidden');
+  $('#app').classList.remove('hidden');
+  loadData();
+}
+
+function signOutAccount() {
+  localStorage.removeItem('cxp_current_host');
+  currentHost = null;
+  notify('Signed out of host portal.');
+  $('#already-signed-box').classList.add('hidden');
+  $('#login-section').classList.remove('hidden');
+  $('#app').classList.add('hidden');
+}
+
+// LOAD DASHBOARD DATA
+function loadData() {
+  if (!currentHost) return;
+  renderSidebarInfo();
+  renderSection(currentSection);
+}
+
+function renderSidebarInfo() {
+  $('#sidebar-host-name').textContent = currentHost.name || 'Business Host';
+  $('#sidebar-host-loc').textContent = currentHost.location || 'Sri Lanka';
+  const initials = (currentHost.name || 'SR').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  $('#sidebar-avatar').textContent = initials;
+  $('#user-email-label').textContent = currentHost.email;
+
+  const gigs = getGigs();
+  const bookings = getBookings();
+  $('#nav-gigs-count').textContent = `${gigs.length}/6`;
+  $('#top-gig-count').textContent = gigs.length;
+  $('#nav-bookings-count').textContent = bookings.length;
+}
+
+// NAVIGATION HANDLER
+function setupNavigation() {
+  $$('#nav-menu button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sec = btn.dataset.section;
+      if (!sec) return;
+      currentSection = sec;
+      $$('#nav-menu button').forEach(b => b.classList.toggle('active', b === btn));
+      $('#sidebar').classList.remove('open');
+      renderSection(sec);
+    });
+  });
+}
+
+// RENDER SECTION
+function renderSection(sec) {
+  const titles = {
+    overview: ['Business Overview', 'Key performance metrics, upcoming sessions, and recent activity.'],
+    gigs: ['My Experience Gigs', 'Create and manage up to 6 immersive micro-experiences like a Fiverr pro.'],
+    bookings: ['Bookings & Reservations', 'Manage upcoming guest sessions, record payments, and confirm requests.'],
+    blocks: ['Availability & Schedule', 'Block sessions or manage dates for studio holidays and private workshops.'],
+    payouts: ['Earnings & Payouts', 'Track your gross revenue, platform fee (3%), and net earnings.'],
+    refunds: ['Refund Requests', 'Track refund requests and verify completed adjustments.'],
+    tickets: ['Operations Support Desk', 'Submit direct requests to the CeylonXperiences platform team.'],
+    profile: ['Business Profile', 'Manage your provider studio identity, contact details, and credentials.']
+  };
+
+  const [t, sub] = titles[sec] || ['Dashboard', ''];
+  $('#page-title').textContent = t;
+  $('#page-subtitle').textContent = sub;
+  $('#topbar-title').textContent = t;
+
+  let actionsHtml = '';
+  if (sec === 'gigs') {
+    const gigCount = getGigs().length;
+    actionsHtml = `<button class="btn primary" onclick="openCreateGigModal()" ${gigCount >= 6 ? 'disabled title="Maximum 6 gigs reached"' : ''}>+ Create New Gig (${gigCount}/6)</button>`;
+  } else if (sec === 'bookings') {
+    actionsHtml = `<button class="btn primary" onclick="openAddBookingModal()">+ Add Direct Reservation</button>`;
+  } else if (sec === 'blocks') {
+    actionsHtml = `<button class="btn primary" onclick="openBlockModal()">+ Block a Date/Time</button>`;
+  } else if (sec === 'tickets') {
+    actionsHtml = `<button class="btn primary" onclick="openTicketModal()">+ New Support Request</button>`;
+  }
+  $('#page-actions').innerHTML = actionsHtml;
+
+  const container = $('#view-container');
+  if (sec === 'overview') container.innerHTML = renderOverviewView();
+  else if (sec === 'gigs') container.innerHTML = renderGigsView();
+  else if (sec === 'bookings') container.innerHTML = renderBookingsView();
+  else if (sec === 'blocks') container.innerHTML = renderBlocksView();
+  else if (sec === 'payouts') container.innerHTML = renderPayoutsView();
+  else if (sec === 'refunds') container.innerHTML = renderRefundsView();
+  else if (sec === 'tickets') container.innerHTML = renderTicketsView();
+  else if (sec === 'profile') container.innerHTML = renderProfileView();
+}
+
+// -----------------------------------------------------------------
+// 1. OVERVIEW VIEW - INTERACTIVE CALENDAR & GIG PERFORMANCE HUB
+// -----------------------------------------------------------------
+let calCurrentYear = 2026;
+let calCurrentMonth = 10; // 0-indexed: 10 = November
+let calSelectedDate = '2026-11-10'; // Default to Today
+let calGigFilter = 'all';
+const CAL_MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+function changeCalMonth(delta) {
+  calCurrentMonth += delta;
+  if (calCurrentMonth < 0) {
+    calCurrentMonth = 11;
+    calCurrentYear -= 1;
+  } else if (calCurrentMonth > 11) {
+    calCurrentMonth = 0;
+    calCurrentYear += 1;
+  }
+  const widget = $('#booking-calendar-widget');
+  if (widget) {
+    widget.outerHTML = renderBookingCalendarSection(getGigs(), getBookings());
+  }
+}
+
+function setCalToday() {
+  calCurrentYear = 2026;
+  calCurrentMonth = 10;
+  calSelectedDate = '2026-11-10';
+  const widget = $('#booking-calendar-widget');
+  if (widget) {
+    widget.outerHTML = renderBookingCalendarSection(getGigs(), getBookings());
+  }
+}
+
+function setCalGigFilter(val) {
+  calGigFilter = val;
+  const widget = $('#booking-calendar-widget');
+  if (widget) {
+    widget.outerHTML = renderBookingCalendarSection(getGigs(), getBookings());
+  }
+}
+
+function selectCalDate(dateStr) {
+  calSelectedDate = dateStr;
+  $$('.cal-day-cell').forEach(cell => {
+    cell.classList.toggle('is-selected', cell.getAttribute('data-date') === dateStr);
+  });
+  const inspector = $('#cal-inspector-body');
+  if (inspector) {
+    inspector.innerHTML = renderCalInspectorContent(calSelectedDate, getGigs(), getBookings(), getBlocks());
+  }
+}
+
+function renderBookingCalendarSection(gigs, bookings) {
+  const blocks = getBlocks();
+  
+  const filteredBookings = calGigFilter === 'all' 
+    ? bookings 
+    : bookings.filter(b => b.listing === calGigFilter);
+  const filteredBlocks = calGigFilter === 'all'
+    ? blocks
+    : blocks.filter(blk => blk.listing === calGigFilter);
+
+  const year = calCurrentYear;
+  const month = calCurrentMonth;
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const totalDays = lastDay.getDate();
+  
+  let startOffset = firstDay.getDay() - 1; // 0=Mon, ..., 6=Sun
+  if (startOffset === -1) startOffset = 6;
+  
+  const prevMonthLastDay = new Date(year, month, 0).getDate();
+  const cells = [];
+  
+  // Previous month padding
+  for (let i = startOffset - 1; i >= 0; i--) {
+    const d = prevMonthLastDay - i;
+    const pMonth = month === 0 ? 11 : month - 1;
+    const pYear = month === 0 ? year - 1 : year;
+    const mStr = String(pMonth + 1).padStart(2, '0');
+    const dStr = String(d).padStart(2, '0');
+    cells.push({
+      year: pYear,
+      month: pMonth,
+      day: d,
+      dateStr: `${pYear}-${mStr}-${dStr}`,
+      isCurrentMonth: false
+    });
+  }
+  
+  // Current month
+  for (let d = 1; d <= totalDays; d++) {
+    const mStr = String(month + 1).padStart(2, '0');
+    const dStr = String(d).padStart(2, '0');
+    cells.push({
+      year: year,
+      month: month,
+      day: d,
+      dateStr: `${year}-${mStr}-${dStr}`,
+      isCurrentMonth: true
+    });
+  }
+  
+  // Next month padding to fill complete rows of 7
+  const remainder = cells.length % 7;
+  if (remainder > 0) {
+    const needed = 7 - remainder;
+    for (let d = 1; d <= needed; d++) {
+      const nMonth = month === 11 ? 0 : month + 1;
+      const nYear = month === 11 ? year + 1 : year;
+      const mStr = String(nMonth + 1).padStart(2, '0');
+      const dStr = String(d).padStart(2, '0');
+      cells.push({
+        year: nYear,
+        month: nMonth,
+        day: d,
+        dateStr: `${nYear}-${mStr}-${dStr}`,
+        isCurrentMonth: false
+      });
+    }
+  }
+
+  return `
+    <div class="calendar-card" id="booking-calendar-widget">
+      <!-- Top Bar -->
+      <div class="calendar-topbar">
+        <div class="calendar-title-badge">
+          <div class="cal-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <h2>Booking Calendar & Sessions Schedule</h2>
+            <p class="calendar-subtitle">Live schedule of upcoming guest bookings and studio availability.</p>
+          </div>
+        </div>
+
+        <div class="calendar-header-controls">
+          <select class="calendar-gig-filter" onchange="setCalGigFilter(this.value)" title="Filter calendar by experience gig">
+            <option value="all" ${calGigFilter === 'all' ? 'selected' : ''}>All Experience Gigs (${gigs.length})</option>
+            ${gigs.map(g => `
+              <option value="${E(g.id)}" ${calGigFilter === g.id ? 'selected' : ''}>
+                ${E(g.title.length > 32 ? g.title.slice(0, 32) + '...' : g.title)}
+              </option>
+            `).join('')}
+          </select>
+
+          <div class="calendar-nav-wrap">
+            <button type="button" class="cal-nav-btn" onclick="changeCalMonth(-1)" title="Previous month">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <span class="calendar-month-label">${CAL_MONTH_NAMES[calCurrentMonth]} ${calCurrentYear}</span>
+            <button type="button" class="cal-nav-btn" onclick="changeCalMonth(1)" title="Next month">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          <button type="button" class="cal-today-btn" onclick="setCalToday()">Today</button>
+        </div>
+      </div>
+
+      <!-- Legend Bar -->
+      <div class="calendar-legend-bar">
+        <span class="cal-legend-item"><span class="cal-legend-dot confirmed"></span> Confirmed Reservation</span>
+        <span class="cal-legend-item"><span class="cal-legend-dot requested"></span> Pending / Requested</span>
+        <span class="cal-legend-item"><span class="cal-legend-dot completed"></span> Completed Session</span>
+        <span class="cal-legend-item"><span class="cal-legend-dot blocked"></span> Blocked / Maintenance</span>
+      </div>
+
+      <!-- Calendar Main Grid & Inspector -->
+      <div class="calendar-main-grid">
+        <!-- Calendar View Grid -->
+        <div class="calendar-view-pane">
+          <div class="cal-weekdays">
+            <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
+          </div>
+          <div class="cal-days-grid">
+            ${cells.map(c => {
+              const dayBookings = filteredBookings.filter(b => b.date === c.dateStr);
+              const dayBlocks = filteredBlocks.filter(b => b.date === c.dateStr);
+              const isToday = c.dateStr === '2026-11-10';
+              const isSelected = c.dateStr === calSelectedDate;
+
+              return `
+                <div class="cal-day-cell ${c.isCurrentMonth ? '' : 'other-month'} ${isToday ? 'is-today' : ''} ${isSelected ? 'is-selected' : ''}"
+                     data-date="${c.dateStr}"
+                     onclick="selectCalDate('${c.dateStr}')">
+                  <div class="cal-cell-header">
+                    <span class="cal-day-num">${c.day}</span>
+                    ${isToday ? `<span class="cal-today-pill">Today</span>` : ''}
+                  </div>
+                  <div class="cal-events-wrap">
+                    ${dayBookings.slice(0, 2).map(b => {
+                      const st = b.status || 'confirmed';
+                      const guestShort = b.guest ? b.guest.split(' ')[0] : 'Guest';
+                      return `
+                        <div class="cal-pill ${st}" title="${E(b.title)} · ${E(b.guest)}">
+                          <span class="cal-pill-dot"></span>
+                          <span>${b.slot ? b.slot.split(' ')[0] : '10:00'} ${E(guestShort)} (${b.guests})</span>
+                        </div>
+                      `;
+                    }).join('')}
+                    ${dayBlocks.slice(0, 1).map(blk => `
+                      <div class="cal-pill blocked" title="Blocked: ${E(blk.reason || 'Maintenance')}">
+                        <span class="cal-pill-dot"></span>
+                        <span>Blocked</span>
+                      </div>
+                    `).join('')}
+                    ${dayBookings.length > 2 ? `
+                      <div class="cal-more-pill">+${dayBookings.length - 2} more</div>
+                    ` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Selected Day Inspector Pane -->
+        <div class="cal-inspector-pane">
+          <div id="cal-inspector-body">
+            ${renderCalInspectorContent(calSelectedDate, gigs, filteredBookings, filteredBlocks)}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderCalInspectorContent(dateStr, gigs, bookings, blocks) {
+  const parts = dateStr.split('-');
+  const y = parseInt(parts[0], 10);
+  const m = parseInt(parts[1], 10);
+  const d = parseInt(parts[2], 10);
+  const dateObj = new Date(y, m - 1, d);
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const formattedDate = `${dayNames[dateObj.getDay()]}, ${CAL_MONTH_NAMES[m - 1]} ${d}, ${y}`;
+  const isToday = dateStr === '2026-11-10';
+
+  const dayBookings = bookings.filter(b => b.date === dateStr);
+  const dayBlocks = blocks.filter(b => b.date === dateStr);
+
+  let html = `
+    <div class="cal-inspector-header">
+      <div class="cal-inspector-date">
+        <span>${formattedDate}</span>
+        ${isToday ? `<span class="cal-today-pill">Today</span>` : ''}
+      </div>
+      <div class="cal-inspector-count">
+        ${dayBookings.length} Session${dayBookings.length === 1 ? '' : 's'} Scheduled · ${dayBlocks.length} Blocked Slot${dayBlocks.length === 1 ? '' : 's'}
+      </div>
+    </div>
+  `;
+
+  if (dayBookings.length > 0 || dayBlocks.length > 0) {
+    html += `<div class="cal-sessions-list">`;
+    
+    // Booking cards
+    dayBookings.forEach(b => {
+      const gross = b.amount || 0;
+      const net = Math.round(gross * 0.97); // 3% fee
+      const st = b.status || 'confirmed';
+
+      html += `
+        <div class="cal-session-card">
+          <div class="cal-session-top">
+            <span class="cal-session-time">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${E(b.slot || '10:00 AM')}
+            </span>
+            <span class="tag ${st}">${st}</span>
+          </div>
+          <div class="cal-session-title">${E(b.title)}</div>
+          <div class="cal-session-guest">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <strong>${E(b.guest)}</strong> (${b.guests} guest${b.guests === 1 ? '' : 's'})
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">${E(b.email)} · #${E(b.id)}</div>
+          ${b.note ? `<div style="font-size:11.5px;color:var(--ink-secondary);background:var(--line-light);padding:6px 9px;border-radius:4px;margin-bottom:8px;"><em>"${E(b.note)}"</em></div>` : ''}
+          <div class="cal-session-fin">
+            <span>Gross: ${cash(gross)}</span>
+            <span>Host Net (97%): <strong>${cash(net)}</strong></span>
+          </div>
+          <button type="button" class="btn small cal-session-btn" onclick="openManageBookingModal('${E(b.id)}')">Manage Reservation →</button>
+        </div>
+      `;
+    });
+
+    // Blocked cards
+    dayBlocks.forEach(blk => {
+      html += `
+        <div class="cal-session-card" style="border-left:3px solid var(--muted);background:#fbfcfd;">
+          <div class="cal-session-top">
+            <span class="tag">Blocked</span>
+            <span style="font-size:11px;color:var(--muted);">${E(blk.slot || 'Session')}</span>
+          </div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--ink);margin:4px 0;">${E(blk.reason || 'Studio Maintenance')}</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">${E(blk.listingTitle || '')}</div>
+          <button type="button" class="btn small cal-session-btn" onclick="unblockSession('${E(blk.id)}')">Reopen / Unblock Date</button>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  } else {
+    // Empty state
+    html += `
+      <div class="cal-empty-day">
+        <div class="cal-empty-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="cal-empty-title">Studio Open & Available</div>
+        <div class="cal-empty-sub">No sessions scheduled for this date. Your studio is open to receive traveler bookings.</div>
+        <button type="button" class="btn small primary" onclick="openBlockModal('${dateStr}')">+ Block this Date</button>
+      </div>
+    `;
+  }
+
+  return html;
+}
+
+function getGigMetrics(gig, allHostBookings) {
+  const gigBookings = allHostBookings.filter(b => 
+    b.listing === gig.id || 
+    (b.title && gig.title && b.title.trim().toLowerCase() === gig.title.trim().toLowerCase())
+  );
+  
+  const totalOrders = gigBookings.length;
+  const guestsHosted = gigBookings.reduce((sum, b) => sum + (Number(b.guests) || 1), 0);
+  const grossSales = gigBookings.reduce((sum, b) => sum + (Number(b.amount) || 0), 0);
+  const platformFee = Math.round(grossSales * 0.03); // 3% CeylonX fee
+  const netEarnings = grossSales - platformFee; // 97% Host payout
+  
+  // Deterministic impressions & views baseline if not explicitly on gig object
+  const seedNum = (gig.id ? gig.id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0) : 100);
+  const baseImpressions = gig.impressions || (Math.max(totalOrders * 320, 850) + (seedNum * 19) % 1800);
+  const baseViews = gig.views || (Math.max(totalOrders * 38, 95) + (seedNum * 5) % 240);
+  
+  const convRate = baseViews > 0 ? ((Math.max(totalOrders, 1) / baseViews) * 100).toFixed(1) : '0.0';
+  const rating = gig.rating || (4.8 + ((seedNum % 3) * 0.1)).toFixed(1);
+  const reviewsCount = gig.reviewsCount || Math.max(totalOrders * 3, 10 + (seedNum % 9));
+  
+  return {
+    ordersCount: totalOrders,
+    guestsHosted,
+    grossSales,
+    platformFee,
+    netEarnings,
+    impressions: baseImpressions,
+    views: baseViews,
+    convRate,
+    rating,
+    reviewsCount
+  };
+}
+
+function renderGigPerformanceSection(gigs, bookings) {
+  if (!gigs.length) return '';
+
+  let totalImpressions = 0;
+  let totalViews = 0;
+  let totalOrders = 0;
+  let totalGuests = 0;
+  let totalGross = 0;
+  let totalNetEarnings = 0;
+
+  const gigMetricsList = gigs.map(g => {
+    const m = getGigMetrics(g, bookings);
+    totalImpressions += m.impressions;
+    totalViews += m.views;
+    totalOrders += m.ordersCount;
+    totalGuests += m.guestsHosted;
+    totalGross += m.grossSales;
+    totalNetEarnings += m.netEarnings;
+    return { gig: g, metrics: m };
+  });
+
+  const overallConv = totalViews > 0 ? ((Math.max(totalOrders, 1) / totalViews) * 100).toFixed(1) : '0.0';
+
+  return `
+    <div class="panel gig-performance-panel">
+      <div class="panel-head">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:32px;height:32px;border-radius:6px;background:var(--accent-light);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <div>
+              <h2>Gig Performance & Analytics</h2>
+              <p style="margin:2px 0 0;font-size:12px;color:var(--muted);">Track how each experience gig is performing across search impressions, bookings, and net revenue.</p>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;">
+          <span style="background:var(--accent-light);color:var(--accent);padding:4px 10px;border-radius:20px;font-weight:600;">
+            Platform Fee: <strong>3%</strong> · You Keep: <strong style="color:var(--fiverr-green);">97%</strong>
+          </span>
+          <button type="button" class="btn small" onclick="renderSection('gigs')">Manage Gigs (${gigs.length}/6) →</button>
+        </div>
+      </div>
+
+      <!-- Performance Summary Metric Strip -->
+      <div class="perf-stats-strip">
+        <div class="perf-stat-pill">
+          <div class="perf-stat-num">${totalImpressions.toLocaleString()}</div>
+          <div class="perf-stat-lbl">Search Impressions</div>
+        </div>
+        <div class="perf-stat-pill">
+          <div class="perf-stat-num">${totalViews.toLocaleString()}</div>
+          <div class="perf-stat-lbl">Gig Clicks / Views</div>
+        </div>
+        <div class="perf-stat-pill">
+          <div class="perf-stat-num">${totalOrders} <span style="font-size:13px;color:var(--muted);font-weight:400;">(${totalGuests} guests)</span></div>
+          <div class="perf-stat-lbl">Confirmed Orders</div>
+        </div>
+        <div class="perf-stat-pill">
+          <div class="perf-stat-num">${overallConv}%</div>
+          <div class="perf-stat-lbl">Avg. Conversion Rate</div>
+        </div>
+        <div class="perf-stat-pill highlight">
+          <div class="perf-stat-num" style="color:var(--fiverr-green);">${cash(totalNetEarnings)}</div>
+          <div class="perf-stat-lbl">Net Host Earnings (97%)</div>
+        </div>
+      </div>
+
+      <!-- Gig by Gig Breakdown Table -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="min-width:240px;">Experience Gig</th>
+              <th>Impressions</th>
+              <th>Clicks / Views</th>
+              <th>Orders & Guests</th>
+              <th>Conversion Rate</th>
+              <th>Host Net Payout (97%)</th>
+              <th>Rating & Quality</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${gigMetricsList.map(({ gig, metrics }) => {
+              const ctr = metrics.impressions > 0 ? ((metrics.views / metrics.impressions) * 100).toFixed(1) : '0.0';
+              const isHighConv = parseFloat(metrics.convRate) >= 3.5;
+              const photo = gig.imageUrl || GIG_PHOTO_PRESETS[0].url;
+
+              return `
+                <tr class="gig-perf-row">
+                  <td>
+                    <div class="perf-gig-cell">
+                      <img src="${E(photo)}" class="perf-gig-thumb" alt="${E(gig.title)}">
+                      <div class="perf-gig-meta">
+                        <strong title="${E(gig.title)}">${E(gig.title)}</strong>
+                        <div class="perf-gig-sub">
+                          <span>${E(gig.category)}</span> · <span style="font-weight:700;color:var(--ink);">${cash(gig.price)}</span>/person
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <strong>${metrics.impressions.toLocaleString()}</strong>
+                    <div style="font-size:11px;color:var(--muted);">In search & browse</div>
+                  </td>
+                  <td>
+                    <div class="perf-bar-wrap">
+                      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+                        <strong>${metrics.views.toLocaleString()}</strong>
+                        <span style="font-size:10.5px;color:var(--muted);">${ctr}% CTR</span>
+                      </div>
+                      <div class="perf-bar-bg">
+                        <div class="perf-bar-fill" style="width:${Math.min(parseFloat(ctr) * 6, 100)}%;"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <strong>${metrics.ordersCount} reservation${metrics.ordersCount === 1 ? '' : 's'}</strong>
+                    <div style="font-size:11px;color:var(--muted);">${metrics.guestsHosted} guest${metrics.guestsHosted === 1 ? '' : 's'} hosted</div>
+                  </td>
+                  <td>
+                    <span class="perf-conv-pill ${isHighConv ? 'high' : 'normal'}">
+                      ${metrics.convRate}%
+                    </span>
+                    <div style="font-size:10px;color:var(--muted);margin-top:2px;">${isHighConv ? 'Top 10% high convert' : 'Standard velocity'}</div>
+                  </td>
+                  <td>
+                    <strong style="color:var(--fiverr-green);font-size:14px;">${cash(metrics.netEarnings)}</strong>
+                    <div style="font-size:10.5px;color:var(--muted);">Gross ${cash(metrics.grossSales)} · 3% fee</div>
+                  </td>
+                  <td>
+                    <div class="perf-rating-pill">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#b45309" stroke="#b45309" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <span>${metrics.rating}</span>
+                      <span style="font-weight:400;color:var(--muted);font-size:10.5px;">(${metrics.reviewsCount})</span>
+                    </div>
+                    <div style="font-size:10px;color:var(--muted);margin-top:2px;">100% completion</div>
+                  </td>
+                  <td>
+                    <div class="perf-actions-cell">
+                      <button type="button" class="btn small" onclick="openEditGigModal('${E(gig.id)}')">Edit</button>
+                      <button type="button" class="btn small" onclick="setCalGigFilter('${E(gig.id)}')" title="Filter calendar to this gig">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderOverviewView() {
+  const gigs = getGigs();
+  const bookings = getBookings();
+  const paidBookings = bookings.filter(b => b.payment === 'paid');
+  const gross = paidBookings.reduce((s, b) => s + b.amount, 0);
+  const commission = Math.round(gross * 0.03); // 3% PLATFORM FEE
+  const netEarnings = gross - commission;
+  const upcoming = bookings.filter(b => ['confirmed','requested'].includes(b.status));
+
+  return `
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Net Host Earnings</div>
+        <div class="stat-value">${cash(netEarnings)}</div>
+        <div class="stat-sub">You keep 97% · 3% platform fee</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active Gigs</div>
+        <div class="stat-value">${gigs.length} <span style="font-size:15px;color:var(--muted);font-weight:400;">/ 6 Slots</span></div>
+        <div class="stat-sub">${6 - gigs.length} slot(s) remaining on profile</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active Reservations</div>
+        <div class="stat-value">${upcoming.length}</div>
+        <div class="stat-sub">Confirmed & requested sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Provider Status</div>
+        <div class="stat-value" style="font-size:20px;color:var(--accent);">Verified Host</div>
+        <div class="stat-sub">${E(currentHost.location || 'Sri Lanka')}</div>
+      </div>
+    </div>
+
+    <!-- 1. INTERACTIVE BOOKING CALENDAR & SESSIONS SCHEDULE -->
+    ${renderBookingCalendarSection(gigs, bookings)}
+
+    <!-- 2. GIG PERFORMANCE & ANALYTICS (EACH GIG BREAKDOWN) -->
+    ${renderGigPerformanceSection(gigs, bookings)}
+
+    <!-- 3. UPCOMING SESSIONS TABLE -->
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Upcoming Guest Sessions</h2>
+          <p>Next reservations scheduled at your workshop or studio.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        ${upcoming.length ? `
+          <table>
+            <thead>
+              <tr>
+                <th>Booking / Guest</th>
+                <th>Experience</th>
+                <th>Session Time</th>
+                <th>Party Size</th>
+                <th>Total & Payment</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${upcoming.slice(0, 5).map(b => `
+                <tr>
+                  <td><strong>${E(b.guest)}</strong><small>${E(b.email)} · #${E(b.id)}</small></td>
+                  <td>${E(b.title)}</td>
+                  <td>${E(b.date)} · ${E(b.slot)}<small>Asia/Colombo</small></td>
+                  <td>${b.guests} guest${b.guests === 1 ? '' : 's'}</td>
+                  <td>${cash(b.amount)}<small class="tag ${E(b.payment)}">${E(b.payment)}</small></td>
+                  <td><span class="tag ${E(b.status)}">${E(b.status)}</span></td>
+                  <td><button type="button" class="btn small" onclick="openManageBookingModal('${E(b.id)}')">Manage</button></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        ` : `
+          <div style="padding:40px;text-align:center;color:var(--muted);">No upcoming reservations found.</div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+// -----------------------------------------------------------------
+// 2. FIVERR-STYLE MY GIGS VIEW (MAX 6 GIGS)
+// -----------------------------------------------------------------
+function renderGigsView() {
+  const gigs = getGigs();
+  const gigCount = gigs.length;
+  const maxGigs = 6;
+  const remaining = maxGigs - gigCount;
+  const progressPercent = Math.round((gigCount / maxGigs) * 100);
+
+  return `
+    <div class="gigs-hero-banner">
+      <div class="gigs-hero-text">
+        <h2>Fiverr-Style Experience Gigs</h2>
+        <p>Offer hands-on cultural micro-experiences to international visitors. Create packages, set your pricing, and manage up to 6 distinctive artisanal gigs under your host profile. Platform fee is 3%.</p>
+      </div>
+      <div class="gig-meter-box">
+        <div class="gig-meter-title">Profile Gigs Capacity</div>
+        <div class="gig-meter-count">${gigCount} / ${maxGigs} Gigs Used</div>
+        <div class="gig-progress-bar">
+          <div class="gig-progress-fill" style="width: ${progressPercent}%;"></div>
+        </div>
+        <small style="font-size:10px;opacity:0.8;display:block;margin-top:6px;">${remaining > 0 ? remaining + ' slot(s) available to publish' : 'Maximum 6 gigs limit reached'}</small>
+      </div>
+    </div>
+
+    <!-- GIGS GRID -->
+    <div class="gigs-grid">
+      ${gigs.map(g => {
+        const img = g.imageUrl || GIG_PHOTO_PRESETS[0].url;
+        const st = g.status || 'live';
+        const incs = (g.inclusions ? g.inclusions.split(/[,•\n]+/) : ['Apron & Tools', 'All Materials', 'Refreshments']).map(s => s.trim()).filter(Boolean);
+        return `
+          <div class="gig-card">
+            <div class="gig-card-media">
+              <img src="${E(img)}" alt="${E(g.title)}">
+              <div class="gig-cat-badge">${E(g.category || 'Experience')}</div>
+              <div class="gig-status-badge ${E(st)}">${st === 'live' ? 'Live' : 'Paused'}</div>
+            </div>
+            <div class="gig-card-body">
+              <h3 class="gig-card-title">${E(g.title)}</h3>
+              <div class="gig-meta-row">
+                <span class="gig-meta-item">Duration: ${E(g.duration || '3 hours')}</span>
+                <span class="gig-meta-item">·</span>
+                <span class="gig-meta-item">Max ${E(g.capacity || 6)} guests</span>
+              </div>
+              <div class="gig-inclusions">
+                ${incs.slice(0, 3).map(inc => `<span class="inclusion-pill">✓ ${E(inc)}</span>`).join('')}
+              </div>
+              <div class="gig-card-footer">
+                <div class="gig-price-box">
+                  <small>Price per guest</small>
+                  <strong>${cash(g.price)}</strong>
+                </div>
+                <div class="gig-actions-row">
+                  <button class="btn small" onclick="openEditGigModal('${E(g.id)}')">Edit</button>
+                  <button class="btn small" onclick="toggleGigStatus('${E(g.id)}', '${st === 'live' ? 'paused' : 'live'}')">
+                    ${st === 'live' ? 'Pause' : 'Activate'}
+                  </button>
+                  <button class="btn small danger" onclick="deleteGigPrompt('${E(g.id)}')">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+
+      <!-- ADD GIG CARD (Only if < 6) -->
+      ${gigCount < maxGigs ? `
+        <div class="gig-add-card" onclick="openCreateGigModal()">
+          <div class="gig-add-icon">+</div>
+          <strong>Create a New Experience Gig</strong>
+          <p>Add another cultural workshop or micro-experience (${remaining} slot${remaining === 1 ? '' : 's'} remaining).</p>
+          <button class="btn primary small" style="margin-top:14px;">+ Add Gig (${gigCount + 1}/6)</button>
+        </div>
+      ` : `
+        <div style="grid-column: 1 / -1; background:#fef3c7; border:1px solid #fde68a; padding:16px 20px; border-radius:var(--radius); font-size:13px; color:#92400e;">
+          <strong>Profile limit reached (6 / 6 gigs).</strong> You have published the maximum allowed 6 experience gigs for your business profile. You can edit existing gigs, toggle pause, or delete a gig to free up a slot.
+        </div>
+      `}
+    </div>
+  `;
+}
+
+// GIG MODAL (CREATE / EDIT)
+function openCreateGigModal() {
+  const gigs = getGigs();
+  if (gigs.length >= 6) {
+    alert('Maximum 6 gigs allowed per business profile. Please edit or delete an existing gig.');
+    return;
+  }
+  showGigFormModal(null);
+}
+
+function openEditGigModal(id) {
+  const g = getGigs().find(x => x.id === id);
+  if (!g) return;
+  showGigFormModal(g);
+}
+
+function showGigFormModal(g) {
+  const isEdit = !!g;
+  const title = isEdit ? 'Edit Experience Gig' : 'Create an Experience Gig';
+  const defaultImg = g ? (g.imageUrl || '') : GIG_PHOTO_PRESETS[0].url;
+
+  const html = `
+    <form id="gig-form">
+      <input type="hidden" name="id" value="${E(g ? g.id : '')}">
+      
+      <div class="form-field">
+        <label for="gig-title">Gig Title (Fiverr Style) *</label>
+        <input id="gig-title" name="title" type="text" required maxlength="150" 
+          placeholder="e.g. I will teach you authentic sapphire faceting in Ratnapura"
+          value="${E(g ? g.title : 'I will ')}">
+        <span class="form-hint">Tip: Start with "I will..." followed by what travelers will make, learn, or experience.</span>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label for="gig-cat">Experience Category *</label>
+          <select id="gig-cat" name="category" required>
+            ${['Gems & Jewellery', 'Cooking & Cuisine', 'Pottery & Ceramics', 'Ceylon Tea & Plantations', 'Batik & Textiles', 'Ayurveda & Wellness', 'Cultural Heritage', 'Nature & Wildlife'].map(c => `
+              <option value="${c}" ${g && g.category === c ? 'selected' : ''}>${c}</option>
+            `).join('')}
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="gig-location">Studio / Workshop Location *</label>
+          <input id="gig-location" name="location" type="text" required maxlength="150"
+            placeholder="e.g. Ratnapura, Sabaragamuwa"
+            value="${E(g ? g.location : (currentHost.location || 'Ratnapura'))}">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label for="gig-price">Price Per Guest (LKR) *</label>
+          <input id="gig-price" name="price" type="number" required min="500" max="100000" step="100"
+            placeholder="12000"
+            value="${E(g ? g.price : 12000)}">
+          <span class="form-hint">Platform fee is 3%. You keep 97%.</span>
+        </div>
+        <div class="form-field">
+          <label for="gig-capacity">Max Capacity per Session *</label>
+          <input id="gig-capacity" name="capacity" type="number" required min="1" max="50"
+            placeholder="6"
+            value="${E(g ? g.capacity : 6)}">
+          <span class="form-hint">Small groups (2-8 guests) sell best.</span>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label for="gig-duration">Duration *</label>
+          <input id="gig-duration" name="duration" type="text" required maxlength="60"
+            placeholder="e.g. 4 hours"
+            value="${E(g ? g.duration : '3.5 hours')}">
+        </div>
+        <div class="form-field">
+          <label for="gig-status">Gig Visibility Status</label>
+          <select id="gig-status" name="status">
+            <option value="live" ${!g || g.status === 'live' ? 'selected' : ''}>Live (Bookable immediately)</option>
+            <option value="paused" ${g && g.status === 'paused' ? 'selected' : ''}>Paused (Hidden from catalog)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- IMAGE SELECTION & PRESETS -->
+      <div class="form-field">
+        <label for="gig-image">Cover Photo URL *</label>
+        <input id="gig-image" name="imageUrl" type="url" required maxlength="500"
+          placeholder="https://..."
+          value="${E(defaultImg)}">
+        <span class="form-hint">Select a curated photo below or enter your own custom URL:</span>
+        <div class="photo-presets-row">
+          ${GIG_PHOTO_PRESETS.map((p, idx) => `
+            <div class="preset-thumb ${p.url === defaultImg ? 'active' : ''}" onclick="selectGigPreset('${p.url}', this)">
+              <img src="${p.url}" alt="${p.label}">
+              <div class="preset-label">${p.label}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="gig-inclusions">What's Included / Inclusions</label>
+        <input id="gig-inclusions" name="inclusions" type="text" maxlength="300"
+          placeholder="Gem cutting session, Finished stone, Certificate, Tea"
+          value="${E(g ? g.inclusions || '' : 'Workshop Tools, All Materials, Take-home creation, Refreshments')}">
+        <div class="quick-chips">
+          <span class="quick-chip" onclick="addInclusionChip('Apron & Equipment')">+ Apron & Equipment</span>
+          <span class="quick-chip" onclick="addInclusionChip('All Raw Materials')">+ All Materials</span>
+          <span class="quick-chip" onclick="addInclusionChip('Full Meal')">+ Full Meal</span>
+          <span class="quick-chip" onclick="addInclusionChip('Finished Artwork to Take Home')">+ Take-home Creation</span>
+          <span class="quick-chip" onclick="addInclusionChip('Certificate')">+ Certificate</span>
+          <span class="quick-chip" onclick="addInclusionChip('Tea & Refreshments')">+ Tea & Refreshments</span>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="gig-desc">Experience Description & Story *</label>
+        <textarea id="gig-desc" name="description" rows="4" required maxlength="3000"
+          placeholder="Describe step-by-step what guests will do, what makes your studio unique, and what they will take away...">${E(g ? g.description : 'Hands-on artisanal workshop guided by local craft masters.')}</textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="gig-policy">Cancellation Policy</label>
+        <input id="gig-policy" name="policy" type="text" maxlength="300"
+          value="${E(g ? g.policy : 'Cancel at least 48 hours before the session for a full refund.')}">
+      </div>
+
+      <div id="gig-error" class="error-banner hidden"></div>
+    </form>
+  `;
+
+  const footer = `
+    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+    <button type="button" class="btn primary" id="btn-save-gig" onclick="submitGigForm()">
+      ${isEdit ? 'Save Changes' : 'Publish Experience Gig'}
+    </button>
+  `;
+
+  openModal(title, html, footer);
+}
+
+function selectGigPreset(url, el) {
+  $('#gig-image').value = url;
+  $$('.preset-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function addInclusionChip(text) {
+  const input = $('#gig-inclusions');
+  const current = input.value.trim();
+  if (!current) input.value = text;
+  else if (!current.includes(text)) input.value = current + ', ' + text;
+}
+
+function submitGigForm() {
+  const form = $('#gig-form');
+  if (!form.reportValidity()) return;
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+
+  const allGigs = getAllGigs();
+  const hostGigs = getGigs();
+
+  if (!data.id && hostGigs.length >= 6) {
+    $('#gig-error').textContent = 'Maximum 6 gigs allowed per business profile.';
+    $('#gig-error').classList.remove('hidden');
+    return;
+  }
+
+  if (data.id) {
+    const idx = allGigs.findIndex(x => x.id === data.id);
+    if (idx >= 0) {
+      allGigs[idx] = {
+        ...allGigs[idx],
+        ...data,
+        host: currentHost.id,
+        hostName: currentHost.name,
+        hostEmail: currentHost.email || '',
+        price: parseInt(data.price, 10),
+        capacity: parseInt(data.capacity, 10)
+      };
+    }
+  } else {
+    allGigs.unshift({
+      id: 'L-' + Math.floor(1000 + Math.random() * 9000),
+      host: currentHost.id,
+      hostName: currentHost.name,
+      hostEmail: currentHost.email || '',
+      title: data.title,
+      category: data.category,
+      location: data.location,
+      price: parseInt(data.price, 10) || 5000,
+      capacity: parseInt(data.capacity, 10) || 6,
+      duration: data.duration || '3 hours',
+      status: data.status || 'live',
+      imageUrl: data.imageUrl || GIG_PHOTO_PRESETS[0].url,
+      inclusions: data.inclusions,
+      description: data.description,
+      policy: data.policy
+    });
+  }
+
+  localStorage.setItem('cxp_host_gigs', JSON.stringify(allGigs));
+  closeModal();
+  loadData();
+  notify(data.id ? 'Gig updated successfully.' : 'Experience gig published.');
+}
+
+function toggleGigStatus(id, newStatus) {
+  const allGigs = getAllGigs();
+  const gig = allGigs.find(x => x.id === id);
+  if (!gig) return;
+  gig.status = newStatus;
+  localStorage.setItem('cxp_host_gigs', JSON.stringify(allGigs));
+  loadData();
+  notify(`Gig is now ${newStatus === 'live' ? 'Live' : 'Paused'}`);
+}
+
+function deleteGigPrompt(id) {
+  const allGigs = getAllGigs();
+  const gig = allGigs.find(x => x.id === id);
+  if (!gig) return;
+  if (!confirm(`Are you sure you want to delete "${gig.title}"? This will free up 1 gig slot on your profile.`)) return;
+
+  const remaining = allGigs.filter(x => x.id !== id);
+  localStorage.setItem('cxp_host_gigs', JSON.stringify(remaining));
+  loadData();
+  notify('Experience gig removed. 1 slot freed.');
+}
+
+// -----------------------------------------------------------------
+// 3. BOOKINGS VIEW & DIRECT RESERVATION MODAL
+// -----------------------------------------------------------------
+function renderBookingsView() {
+  const bookings = getBookings().filter(b => {
+    const matchQ = !bookingQuery || JSON.stringify(b).toLowerCase().includes(bookingQuery.toLowerCase());
+    const matchS = !bookingStatusFilter || b.status === bookingStatusFilter || b.payment === bookingStatusFilter;
+    return matchQ && matchS;
+  });
+
+  return `
+    <div class="panel">
+      <div class="filters-bar">
+        <input type="search" placeholder="Search guests, email, or booking ID..." value="${E(bookingQuery)}" 
+          oninput="bookingQuery = this.value; renderSection('bookings');">
+        <select onchange="bookingStatusFilter = this.value; renderSection('bookings');">
+          <option value="">All Statuses</option>
+          <option value="confirmed" ${bookingStatusFilter === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+          <option value="requested" ${bookingStatusFilter === 'requested' ? 'selected' : ''}>Requested</option>
+          <option value="completed" ${bookingStatusFilter === 'completed' ? 'selected' : ''}>Completed</option>
+          <option value="cancelled" ${bookingStatusFilter === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+          <option value="paid" ${bookingStatusFilter === 'paid' ? 'selected' : ''}>Paid</option>
+          <option value="unpaid" ${bookingStatusFilter === 'unpaid' ? 'selected' : ''}>Unpaid</option>
+        </select>
+        <span style="font-size:12px;color:var(--muted);margin-left:auto;">${bookings.length} reservations</span>
+      </div>
+      <div class="table-wrap">
+        ${bookings.length ? `
+          <table>
+            <thead>
+              <tr>
+                <th>Booking ID / Guest</th>
+                <th>Experience Gig</th>
+                <th>Session Date & Slot</th>
+                <th>Party Size</th>
+                <th>Total & Payment</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${bookings.map(b => `
+                <tr>
+                  <td><strong>${E(b.guest)}</strong><small>${E(b.email)} · #${E(b.id)}</small></td>
+                  <td>${E(b.title)}</td>
+                  <td>${E(b.date)} · ${E(b.slot)}<small>Asia/Colombo</small></td>
+                  <td>${b.guests} guest${b.guests === 1 ? '' : 's'}</td>
+                  <td>${cash(b.amount)}<small class="tag ${E(b.payment)}">${E(b.payment)}</small></td>
+                  <td><span class="tag ${E(b.status)}">${E(b.status)}</span></td>
+                  <td><button class="btn small" onclick="openManageBookingModal('${E(b.id)}')">Manage</button></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        ` : `
+          <div style="padding:40px;text-align:center;color:var(--muted);">No reservations match your filter.</div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function openAddBookingModal() {
+  const liveGigs = getGigs().filter(l => l.status === 'live');
+  if (!liveGigs.length) {
+    alert('You need at least one Live experience gig before adding reservations.');
+    return;
+  }
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Colombo' });
+
+  const html = `
+    <form id="add-booking-form">
+      <div class="form-field">
+        <label for="ab-listing">Select Experience Gig *</label>
+        <select id="ab-listing" name="listing" required>
+          ${liveGigs.map(l => `<option value="${l.id}">${E(l.title)} (${cash(l.price)} · Max ${l.capacity})</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label for="ab-guest">Guest Name *</label>
+          <input id="ab-guest" name="guest" type="text" required placeholder="e.g. John Doe">
+        </div>
+        <div class="form-field">
+          <label for="ab-email">Guest Email Address *</label>
+          <input id="ab-email" name="email" type="email" required placeholder="guest@example.com">
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label for="ab-date">Session Date (Asia/Colombo) *</label>
+          <input id="ab-date" name="date" type="date" required min="${today}" value="${today}">
+        </div>
+        <div class="form-field">
+          <label for="ab-slot">Time Slot *</label>
+          <select id="ab-slot" name="slot" required>
+            <option value="10:00">10:00 AM (Morning Session)</option>
+            <option value="14:00">02:00 PM (Afternoon Session)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="ab-guests">Number of Guests *</label>
+        <input id="ab-guests" name="guests" type="number" required min="1" max="50" value="2">
+      </div>
+      <div class="form-field">
+        <label for="ab-note">Special Requests / Notes</label>
+        <textarea id="ab-note" name="note" rows="2" placeholder="Dietary restrictions, allergies, or language preference..."></textarea>
+      </div>
+    </form>
+  `;
+
+  const footer = `
+    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+    <button type="button" class="btn primary" onclick="submitAddBooking()">Confirm Reservation</button>
+  `;
+
+  openModal('Add Direct / Walk-in Reservation', html, footer);
+}
+
+function submitAddBooking() {
+  const form = $('#add-booking-form');
+  if (!form.reportValidity()) return;
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+
+  const gigs = getGigs();
+  const gig = gigs.find(g => g.id === data.listing) || gigs[0];
+  const guests = parseInt(data.guests, 10) || 1;
+
+  const allBookings = getAllBookings();
+  allBookings.unshift({
+    id: 'B-' + Math.floor(100 + Math.random() * 900),
+    host: currentHost.id,
+    listing: gig.id,
+    title: gig.title,
+    guest: data.guest,
+    email: data.email,
+    date: data.date,
+    slot: data.slot,
+    guests: guests,
+    amount: gig.price * guests,
+    commission: 3,
+    status: 'confirmed',
+    payment: 'unpaid',
+    refunded: 0,
+    note: data.note || ''
+  });
+
+  localStorage.setItem('cxp_host_bookings', JSON.stringify(allBookings));
+  closeModal();
+  loadData();
+  notify('Reservation confirmed successfully.');
+}
+
+function openManageBookingModal(id) {
+  const bookings = getBookings();
+  const b = bookings.find(x => x.id === id);
+  if (!b) return;
+
+  const transitions = {
+    requested: ['confirmed', 'declined'],
+    confirmed: ['completed', 'cancelled']
+  }[b.status] || [];
+
+  const html = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;font-size:13px;">
+      <div><span style="color:var(--muted);font-size:11px;">GUEST</span><br><strong>${E(b.guest)}</strong> (${E(b.email)})</div>
+      <div><span style="color:var(--muted);font-size:11px;">EXPERIENCE</span><br><strong>${E(b.title)}</strong></div>
+      <div><span style="color:var(--muted);font-size:11px;">DATE & TIME</span><br><strong>${E(b.date)} · ${E(b.slot)}</strong></div>
+      <div><span style="color:var(--muted);font-size:11px;">PARTY SIZE</span><br><strong>${b.guests} guests</strong></div>
+      <div><span style="color:var(--muted);font-size:11px;">TOTAL & PAYMENT</span><br><strong>${cash(b.amount)}</strong> (<span class="tag ${E(b.payment)}">${E(b.payment)}</span>)</div>
+      <div><span style="color:var(--muted);font-size:11px;">STATUS</span><br><span class="tag ${E(b.status)}">${E(b.status)}</span></div>
+      ${b.paymentRef ? `<div style="grid-column:1/-1;"><span style="color:var(--muted);font-size:11px;">PAYMENT REFERENCE</span><br><code>${E(b.paymentRef)}</code></div>` : ''}
+      ${b.note ? `<div style="grid-column:1/-1;"><span style="color:var(--muted);font-size:11px;">GUEST NOTE</span><br>${E(b.note)}</div>` : ''}
+    </div>
+
+    <div style="border-top:1px solid var(--line);padding-top:16px;">
+      <strong style="display:block;font-size:12px;margin-bottom:10px;">Change Status or Record Payment:</strong>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${transitions.map(st => `
+          <button class="btn ${st === 'confirmed' || st === 'completed' ? 'primary' : 'danger'}" 
+            onclick="updateBookingStatus('${E(b.id)}', '${E(st)}')">Mark as ${st.toUpperCase()}</button>
+        `).join('')}
+        ${b.payment === 'unpaid' && !['cancelled','declined'].includes(b.status) ? `
+          <button class="btn" style="background:var(--gold);color:#fff;border-color:var(--gold);" onclick="recordPaymentModal('${E(b.id)}')">Record Payment Received</button>
+        ` : ''}
+        ${b.payment === 'paid' && b.refunded < b.amount ? `
+          <button class="btn small" onclick="requestRefundModal('${E(b.id)}')">Request Refund</button>
+        ` : ''}
+      </div>
+    </div>
+  `;
+
+  openModal(`Reservation #${b.id}`, html, `<button class="btn" onclick="closeModal()">Close</button>`);
+}
+
+function updateBookingStatus(id, newStatus) {
+  const allBookings = getAllBookings();
+  const b = allBookings.find(x => x.id === id);
+  if (!b) return;
+  b.status = newStatus;
+  localStorage.setItem('cxp_host_bookings', JSON.stringify(allBookings));
+  closeModal();
+  loadData();
+  notify(`Booking #${id} updated to ${newStatus}`);
+}
+
+function recordPaymentModal(id) {
+  const ref = prompt('Enter offline payment receipt or bank transfer reference:');
+  if (!ref) return;
+  const allBookings = getAllBookings();
+  const b = allBookings.find(x => x.id === id);
+  if (!b) return;
+  b.payment = 'paid';
+  b.paymentRef = ref;
+  localStorage.setItem('cxp_host_bookings', JSON.stringify(allBookings));
+  closeModal();
+  loadData();
+  notify('Payment recorded as paid.');
+}
+
+function requestRefundModal(id) {
+  const allBookings = getAllBookings();
+  const b = allBookings.find(x => x.id === id);
+  if (!b) return;
+  const reason = prompt('Reason for cancellation & refund request:', 'Guest requested schedule change');
+  if (!reason) return;
+  const refunds = JSON.parse(localStorage.getItem('cxp_host_refunds') || '[]');
+  refunds.unshift({
+    id: 'R-' + Math.floor(100 + Math.random() * 900),
+    host: currentHost.id,
+    booking: b.id,
+    amount: b.amount,
+    reason: reason,
+    status: 'pending'
+  });
+  localStorage.setItem('cxp_host_refunds', JSON.stringify(refunds));
+  closeModal();
+  loadData();
+  notify('Refund request submitted.');
+}
+
+// -----------------------------------------------------------------
+// 4. AVAILABILITY & SLOTS VIEW
+// -----------------------------------------------------------------
+function renderBlocksView() {
+  const blocks = getBlocks();
+  const gigs = getGigs();
+  const bookings = getBookings();
+  return `
+    <!-- LIVE CALENDAR VIEW IN AVAILABILITY TAB -->
+    ${renderBookingCalendarSection(gigs, bookings)}
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Blocked Dates & Studio Maintenance</h2>
+          <p>Dates where slots are blocked from receiving new reservations.</p>
+        </div>
+        <button class="btn primary small" onclick="openBlockModal()">+ Block a Session</button>
+      </div>
+      <div class="table-wrap">
+        ${blocks.length ? `
+          <table>
+            <thead>
+              <tr>
+                <th>Experience</th>
+                <th>Date</th>
+                <th>Time Slot</th>
+                <th>Reason</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${blocks.map(b => {
+                const l = getGigs().find(x => x.id === b.listing) || { title: b.listingTitle || 'All Experiences' };
+                return `
+                  <tr>
+                    <td><strong>${E(l.title)}</strong></td>
+                    <td>${E(b.date)}</td>
+                    <td>${E(b.slot)} (Asia/Colombo)</td>
+                    <td>${E(b.reason || 'Closed')}</td>
+                    <td><button class="btn small" onclick="unblockSession('${E(b.id)}')">Reopen / Unblock</button></td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        ` : `
+          <div style="padding:40px;text-align:center;color:var(--muted);">All sessions are currently open and bookable.</div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function openBlockModal(dateDefault) {
+  const gigs = getGigs();
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Colombo' });
+  const blockDate = dateDefault || today;
+
+  const html = `
+    <form id="block-form">
+      <div class="form-field">
+        <label for="blk-listing">Experience Gig *</label>
+        <select id="blk-listing" name="listing">
+          ${gigs.map(l => `<option value="${l.id}">${E(l.title)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-field">
+          <label for="blk-date">Date to Block *</label>
+          <input id="blk-date" name="date" type="date" required value="${blockDate}">
+        </div>
+        <div class="form-field">
+          <label for="blk-slot">Time Slot *</label>
+          <select id="blk-slot" name="slot" required>
+            <option value="10:00 - 14:00">10:00 AM - 02:00 PM (Morning Session)</option>
+            <option value="14:00 - 18:00">02:00 PM - 06:00 PM (Afternoon Session)</option>
+            <option value="All Day">All Day (Full Studio Maintenance)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="blk-reason">Reason for Blocking</label>
+        <input id="blk-reason" name="reason" type="text" placeholder="e.g. Studio maintenance, holiday, or private session">
+      </div>
+    </form>
+  `;
+
+  const footer = `
+    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+    <button type="button" class="btn primary" onclick="submitBlockForm()">Block Slot</button>
+  `;
+
+  openModal('Block a Session', html, footer);
+}
+
+function submitBlockForm() {
+  const form = $('#block-form');
+  if (!form.reportValidity()) return;
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+
+  const gigs = getGigs();
+  const gig = gigs.find(g => g.id === data.listing);
+  const allBlocks = getAllBlocks();
+  allBlocks.unshift({
+    id: 'A-' + Math.floor(100 + Math.random() * 900),
+    host: currentHost.id,
+    hostName: currentHost.name,
+    listing: data.listing,
+    listingTitle: gig ? gig.title : 'All Experiences',
+    date: data.date,
+    slot: data.slot,
+    reason: data.reason || 'Studio Maintenance'
+  });
+  localStorage.setItem('cxp_host_blocks', JSON.stringify(allBlocks));
+  closeModal();
+  loadData();
+  notify('Session blocked successfully.');
+}
+
+function unblockSession(id) {
+  if (!confirm('Reopen this session slot for bookings?')) return;
+  const allBlocks = getAllBlocks().filter(x => x.id !== id);
+  localStorage.setItem('cxp_host_blocks', JSON.stringify(allBlocks));
+  loadData();
+  notify('Slot reopened.');
+}
+
+// -----------------------------------------------------------------
+// 5. EARNINGS & PAYOUTS VIEW (3% PLATFORM FEE)
+// -----------------------------------------------------------------
+function renderPayoutsView() {
+  const bookings = getBookings().filter(b => b.payment === 'paid');
+  const gross = bookings.reduce((s, b) => s + b.amount, 0);
+  const commission = Math.round(gross * 0.03); // 3% PLATFORM FEE
+  const hostNet = gross - commission;
+  const payouts = getPayouts();
+  const settled = payouts.reduce((s, p) => s + p.amount, 0);
+
+  return `
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Gross Collections</div>
+        <div class="stat-value">${cash(gross)}</div>
+        <div class="stat-sub">From all paid bookings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Platform Fee (3%)</div>
+        <div class="stat-value">${cash(commission)}</div>
+        <div class="stat-sub">3% platform service commission</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Net Host Earnings</div>
+        <div class="stat-value" style="color:var(--accent);">${cash(hostNet)}</div>
+        <div class="stat-sub">You receive 97% of booking amount</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Settled Payouts</div>
+        <div class="stat-value">${cash(settled)}</div>
+        <div class="stat-sub">${payouts.length} transfers recorded</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Recorded Bank Payouts</h2>
+          <p>Bank settlement transfers logged by the platform finance operations.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        ${payouts.length ? `
+          <table>
+            <thead>
+              <tr>
+                <th>Settlement ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Bank Transfer Reference</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${payouts.map(p => `
+                <tr>
+                  <td><strong>#${E(p.id)}</strong></td>
+                  <td>${E(p.date)}</td>
+                  <td><strong>${cash(p.amount)}</strong></td>
+                  <td><code>${E(p.reference || '—')}</code></td>
+                  <td><span class="tag live">${E(p.status || 'recorded')}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        ` : `
+          <div style="padding:40px;text-align:center;color:var(--muted);">No bank payouts recorded yet. Completed bookings are settled periodically by platform operations.</div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+// -----------------------------------------------------------------
+// 6. REFUNDS VIEW
+// -----------------------------------------------------------------
+function renderRefundsView() {
+  const refunds = getRefunds();
+  return `
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Refund Requests & History</h2>
+          <p>Track guest refund requests submitted for review by operations.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        ${refunds.length ? `
+          <table>
+            <thead>
+              <tr>
+                <th>Refund ID</th>
+                <th>Booking</th>
+                <th>Amount</th>
+                <th>Reason</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${refunds.map(r => `
+                <tr>
+                  <td><strong>#${E(r.id)}</strong></td>
+                  <td>#${E(r.booking)}</td>
+                  <td><strong>${cash(r.amount)}</strong></td>
+                  <td>${E(r.reason)}</td>
+                  <td><span class="tag ${E(r.status)}">${E(r.status)}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        ` : `
+          <div style="padding:40px;text-align:center;color:var(--muted);">No refund requests recorded.</div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+// -----------------------------------------------------------------
+// 7. TICKETS / SUPPORT VIEW
+// -----------------------------------------------------------------
+function renderTicketsView() {
+  const tickets = getTickets();
+  return `
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Support Tickets</h2>
+          <p>Direct communication with the CeylonXperiences admin team.</p>
+        </div>
+        <button class="btn primary small" onclick="openTicketModal()">+ New Support Request</button>
+      </div>
+      <div class="table-wrap">
+        ${tickets.length ? `
+          <table>
+            <thead>
+              <tr>
+                <th>Ticket ID</th>
+                <th>Subject</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Admin Reply</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tickets.map(t => `
+                <tr>
+                  <td><strong>#${E(t.id)}</strong></td>
+                  <td>${E(t.subject)}<small>${E(t.message)}</small></td>
+                  <td><span class="tag ${t.priority === 'urgent' ? 'declined' : 'confirmed'}">${E(t.priority)}</span></td>
+                  <td><span class="tag ${E(t.status)}">${E(t.status)}</span></td>
+                  <td>${t.reply ? `<span style="color:var(--accent);font-weight:600;">✓ ${E(t.reply)}</span>` : '<span style="color:var(--muted);">Awaiting response</span>'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        ` : `
+          <div style="padding:40px;text-align:center;color:var(--muted);">No support requests submitted yet.</div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function openTicketModal() {
+  const html = `
+    <form id="ticket-form">
+      <div class="form-field">
+        <label for="tk-subject">Subject *</label>
+        <input id="tk-subject" name="subject" type="text" required placeholder="e.g. Question regarding workshop tools or guest meeting point">
+      </div>
+      <div class="form-field">
+        <label for="tk-priority">Priority</label>
+        <select id="tk-priority" name="priority">
+          <option value="normal">Normal</option>
+          <option value="urgent">Urgent</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="tk-message">Message Details *</label>
+        <textarea id="tk-message" name="message" rows="4" required placeholder="Describe your question or issue in detail..."></textarea>
+      </div>
+    </form>
+  `;
+
+  const footer = `
+    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+    <button type="button" class="btn primary" onclick="submitTicketForm()">Submit Request</button>
+  `;
+
+  openModal('Contact Operations Team', html, footer);
+}
+
+function submitTicketForm() {
+  const form = $('#ticket-form');
+  if (!form.reportValidity()) return;
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+
+  const tickets = JSON.parse(localStorage.getItem('cxp_host_tickets') || '[]');
+  tickets.unshift({
+    id: 'T-' + Math.floor(100 + Math.random() * 900),
+    host: currentHost.id,
+    subject: data.subject,
+    priority: data.priority,
+    message: data.message,
+    status: 'open',
+    reply: ''
+  });
+  localStorage.setItem('cxp_host_tickets', JSON.stringify(tickets));
+  closeModal();
+  loadData();
+  notify('Support ticket sent to operations team.');
+}
+
+// -----------------------------------------------------------------
+// 8. BUSINESS PROFILE VIEW (3% PLATFORM FEE)
+// -----------------------------------------------------------------
+function renderProfileView() {
+  return `
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Business Provider Profile</h2>
+          <p>Your studio details, artisan background, and contact information.</p>
+        </div>
+      </div>
+      <div class="panel-body">
+        <form id="profile-form" onsubmit="submitProfileForm(event)" style="max-width:600px;">
+          <div class="form-field">
+            <label for="pf-name">Host Name / Business Provider Name *</label>
+            <input id="pf-name" name="name" type="text" required value="${E(currentHost.name || '')}">
+            <span class="form-hint">You can log into this account by typing this name and password 0000.</span>
+          </div>
+          <div class="form-field">
+            <label for="pf-role">Specialization / Craft Role</label>
+            <input id="pf-role" name="role" type="text" value="${E(currentHost.role || '')}" placeholder="e.g. Master Gem Cutter">
+          </div>
+          <div class="form-field">
+            <label for="pf-phone">Contact Phone Number</label>
+            <input id="pf-phone" name="phone" type="tel" value="${E(currentHost.phone || '')}" placeholder="+94 77 000 0000">
+          </div>
+          <div class="form-field">
+            <label for="pf-location">Studio Address / Location *</label>
+            <input id="pf-location" name="location" type="text" required value="${E(currentHost.location || '')}">
+          </div>
+          <div class="form-field">
+            <label>Registered Account Email</label>
+            <input type="text" disabled value="${E(currentHost.email)}" style="background:#f1f5f9;">
+          </div>
+          <div class="form-field">
+            <label>Platform Commission Fee</label>
+            <input type="text" disabled value="3% (Host earns 97%)" style="background:#f1f5f9;font-weight:600;color:var(--accent);">
+          </div>
+          <button type="submit" class="btn primary" style="margin-top:10px;">Save Profile Updates</button>
+        </form>
+      </div>
+    </div>
+  `;
+}
+
+function submitProfileForm(e) {
+  e.preventDefault();
+  const form = $('#profile-form');
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+
+  currentHost = {
+    ...currentHost,
+    name: data.name,
+    role: data.role,
+    phone: data.phone,
+    location: data.location,
+    commission: 3
+  };
+
+  localStorage.setItem('cxp_current_host', JSON.stringify(currentHost));
+  const hosts = getHosts();
+  const idx = hosts.findIndex(h => h.id === currentHost.id || h.email.toLowerCase() === currentHost.email.toLowerCase());
+  if (idx >= 0) hosts[idx] = currentHost;
+  localStorage.setItem('cxp_hosts', JSON.stringify(hosts));
+
+  loadData();
+  notify('Profile updated successfully.');
+}
+
+// -----------------------------------------------------------------
+// PASSWORD CHANGE MODAL
+// -----------------------------------------------------------------
+function openPasswordModal() {
+  const html = `
+    <form id="pw-form">
+      <div class="form-field">
+        <label for="pw-current">Current Password *</label>
+        <input id="pw-current" name="currentPassword" type="password" required value="0000" placeholder="••••••••">
+      </div>
+      <div class="form-field">
+        <label for="pw-new">New Password * (e.g. 0000)</label>
+        <input id="pw-new" name="newPassword" type="password" required minlength="4" value="0000" placeholder="••••••••">
+        <span class="form-hint">Password for all host accounts can be 0000.</span>
+      </div>
+    </form>
+  `;
+
+  const footer = `
+    <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+    <button type="button" class="btn primary" onclick="submitPasswordChange()">Update Password</button>
+  `;
+
+  openModal('Change Password', html, footer);
+}
+
+function submitPasswordChange() {
+  const form = $('#pw-form');
+  if (!form.reportValidity()) return;
+  const newPw = $('#pw-new').value;
+  currentHost.password = newPw;
+  localStorage.setItem('cxp_current_host', JSON.stringify(currentHost));
+  const hosts = getHosts();
+  const idx = hosts.findIndex(h => h.id === currentHost.id || h.email.toLowerCase() === currentHost.email.toLowerCase());
+  if (idx >= 0) hosts[idx].password = newPw;
+  localStorage.setItem('cxp_hosts', JSON.stringify(hosts));
+  closeModal();
+  notify('Password updated.');
+}
+
+// -----------------------------------------------------------------
+// MODAL CONTROLS
+// -----------------------------------------------------------------
+function openModal(title, bodyHtml, footerHtml) {
+  $('#modal-title').textContent = title;
+  $('#modal-body').innerHTML = bodyHtml;
+  $('#modal-footer').innerHTML = footerHtml;
+  $('#modal').showModal();
+}
+
+function closeModal() {
+  $('#modal').close();
+}
+
+// -----------------------------------------------------------------
+// AUTH SUBMISSION HANDLERS: LOG IN BY HOST NAME WITH PASSWORD 0000
+// -----------------------------------------------------------------
+$('#login-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const input = $('#login-name').value.trim();
+  const pass = $('#login-password').value;
+  $('#auth-error').classList.add('hidden');
+
+  // Match by Name (case-insensitive substring or exact) OR Email against SEED_HOSTS first, then stored hosts
+  const allKnownHosts = [...SEED_HOSTS, ...getHosts()];
+  let host = allKnownHosts.find(h => 
+    h.name.toLowerCase() === input.toLowerCase() || 
+    h.email.toLowerCase() === input.toLowerCase() ||
+    input.toLowerCase().includes(h.name.toLowerCase()) ||
+    h.name.toLowerCase().includes(input.toLowerCase())
+  );
+
+  if (!host) {
+    // If not found in seed hosts, check if entered with password 0000 -> auto register host
+    if (pass === '0000') {
+      const isEmail = input.includes('@');
+      const cleanName = isEmail 
+        ? input.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) + ' Studio'
+        : input;
+      const cleanEmail = isEmail ? input : (input.toLowerCase().replace(/[^a-z0-9]/g, '') + '@ceylonxperiences.lk');
+
+      host = {
+        id: 'H-' + Math.floor(1000 + Math.random() * 9000),
+        name: cleanName,
+        owner: cleanName,
+        role: 'Experience Host',
+        email: cleanEmail,
+        password: pass,
+        location: 'Sri Lanka',
+        status: 'active',
+        verified: true,
+        commission: 3
+      };
+      hosts.push(host);
+      localStorage.setItem('cxp_hosts', JSON.stringify(hosts));
+    } else {
+      $('#auth-error').textContent = 'Invalid credentials. Password for all host accounts is 0000.';
+      $('#auth-error').classList.remove('hidden');
+      return;
+    }
+  } else if (host.password && host.password !== pass && pass !== '0000') {
+    $('#auth-error').textContent = 'Password does not match. Password for all host accounts is 0000.';
+    $('#auth-error').classList.remove('hidden');
+    return;
+  }
+
+  currentHost = host;
+  localStorage.setItem('cxp_current_host', JSON.stringify(currentHost));
+  enterDashboard();
+  notify(`Welcome, ${host.name}! Signed into Seller Hub.`);
+});
+
+$('#signup-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('#signup-name').value.trim();
+  const role = $('#signup-role').value.trim() || 'Experience Host';
+  const email = $('#signup-email').value.trim();
+  const pass = $('#signup-password').value || '0000';
+  const loc = $('#signup-location').value.trim();
+
+  const host = {
+    id: 'H-' + Math.floor(1000 + Math.random() * 9000),
+    name: name,
+    owner: name,
+    role: role,
+    email: email,
+    password: pass,
+    location: loc,
+    status: 'active',
+    verified: true,
+    commission: 3
+  };
+
+  const hosts = getHosts();
+  hosts.push(host);
+  localStorage.setItem('cxp_hosts', JSON.stringify(hosts));
+  currentHost = host;
+  localStorage.setItem('cxp_current_host', JSON.stringify(currentHost));
+
+  enterDashboard();
+  notify(`Welcome ${name}! Your host profile is ready.`);
+});
+
+$('#btn-enter-dashboard')?.addEventListener('click', enterDashboard);
+$('#btn-switch-account')?.addEventListener('click', signOutAccount);
+
+$('#btn-mobile-menu')?.addEventListener('click', () => {
+  $('#sidebar').classList.toggle('open');
+});
+
+// INITIALIZE
+setupNavigation();
+checkAuth();
+</script>
+</body>
+</html>
